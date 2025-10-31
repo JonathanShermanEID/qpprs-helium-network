@@ -27,8 +27,8 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider
-        defaultTheme="light"
-        // switchable
+        defaultTheme="dark"
+        // Apple iOS 26 Monaco Edition - Dark theme with liquid glass
       >
         <TooltipProvider>
           <Toaster />

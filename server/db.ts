@@ -1,6 +1,19 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import {
+  analytics,
+  crawlerLogs,
+  hotspots,
+  InsertAnalytic,
+  InsertCrawlerLog,
+  InsertHotspot,
+  InsertTask,
+  InsertUser,
+  InsertWebhookEvent,
+  tasks,
+  users,
+  webhookEvents,
+} from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +102,128 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// Helium-Manus Integration Queries
+// Author: Jonathan Sherman
+
+export async function getHotspots() {
+  const db = await getDb();
+  if (!db) return [];
+  const result = await db.select().from(hotspots);
+  return result;
+}
+
+export async function getHotspotById(hotspotId: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(hotspots).where(eq(hotspots.hotspotId, hotspotId)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function upsertHotspot(data: InsertHotspot) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(hotspots).values(data).onDuplicateKeyUpdate({
+    set: {
+      name: data.name,
+      status: data.status,
+      rewards: data.rewards,
+      location: data.location,
+      lastSeen: data.lastSeen,
+      updatedAt: new Date(),
+    },
+  });
+}
+
+export async function getCrawlerLogs(limit: number = 100) {
+  const db = await getDb();
+  if (!db) return [];
+  const result = await db.select().from(crawlerLogs).orderBy(desc(crawlerLogs.createdAt)).limit(limit);
+  return result;
+}
+
+export async function insertCrawlerLog(data: InsertCrawlerLog) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(crawlerLogs).values(data);
+}
+
+export async function getWebhookEvents(processed: boolean = false, limit: number = 50) {
+  const db = await getDb();
+  if (!db) return [];
+  const result = await db
+    .select()
+    .from(webhookEvents)
+    .where(eq(webhookEvents.processed, processed ? 1 : 0))
+    .orderBy(desc(webhookEvents.createdAt))
+    .limit(limit);
+  return result;
+}
+
+export async function insertWebhookEvent(data: InsertWebhookEvent) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(webhookEvents).values(data);
+}
+
+export async function markWebhookProcessed(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(webhookEvents).set({ processed: 1 }).where(eq(webhookEvents.id, id));
+}
+
+export async function getTasks(status?: string, limit: number = 50) {
+  const db = await getDb();
+  if (!db) return [];
+  if (status) {
+    const result = await db
+      .select()
+      .from(tasks)
+      .where(eq(tasks.status, status as any))
+      .orderBy(desc(tasks.createdAt))
+      .limit(limit);
+    return result;
+  }
+  const result = await db.select().from(tasks).orderBy(desc(tasks.createdAt)).limit(limit);
+  return result;
+}
+
+export async function insertTask(data: InsertTask) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(tasks).values(data);
+}
+
+export async function updateTaskStatus(id: number, status: string, result?: string) {
+  const db = await getDb();
+  if (!db) return;
+  await db
+    .update(tasks)
+    .set({
+      status: status as any,
+      result,
+      completedAt: status === "completed" || status === "failed" ? new Date() : undefined,
+    })
+    .where(eq(tasks.id, id));
+}
+
+export async function getAnalytics(metricType?: string, limit: number = 100) {
+  const db = await getDb();
+  if (!db) return [];
+  if (metricType) {
+    const result = await db
+      .select()
+      .from(analytics)
+      .where(eq(analytics.metricType, metricType))
+      .orderBy(desc(analytics.timestamp))
+      .limit(limit);
+    return result;
+  }
+  const result = await db.select().from(analytics).orderBy(desc(analytics.timestamp)).limit(limit);
+  return result;
+}
+
+export async function insertAnalytic(data: InsertAnalytic) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(analytics).values(data);
+}
