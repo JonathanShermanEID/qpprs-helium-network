@@ -3,9 +3,11 @@ import { drizzle } from "drizzle-orm/mysql2";
 import {
   analytics,
   crawlerLogs,
+  creditTransformer,
   hotspots,
   InsertAnalytic,
   InsertCrawlerLog,
+  InsertCreditTransformer,
   InsertHotspot,
   InsertRewardsBank,
   InsertTask,
@@ -298,4 +300,68 @@ export async function getRewardsByHotspot(ownerId: string, hotspotId: string) {
     .where(eq(rewardsBank.hotspotId, hotspotId))
     .orderBy(desc(rewardsBank.createdAt));
   return result;
+}
+
+// Credit Transformer LLM Database Functions
+// Author: Jonathan Sherman
+
+export async function getCreditTransformerStatus(ownerId: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db
+    .select()
+    .from(creditTransformer)
+    .where(eq(creditTransformer.ownerId, ownerId))
+    .limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function activateCreditTransformerDB(ownerId: string, certification: string) {
+  const db = await getDb();
+  if (!db) return;
+  
+  const existing = await getCreditTransformerStatus(ownerId);
+  
+  if (existing) {
+    // Update existing
+    await db
+      .update(creditTransformer)
+      .set({
+        isActivated: 1,
+        activatedAt: new Date(),
+        masterArtifactCertification: certification,
+      })
+      .where(eq(creditTransformer.ownerId, ownerId));
+  } else {
+    // Insert new
+    await db.insert(creditTransformer).values({
+      ownerId,
+      isActivated: 1,
+      activatedAt: new Date(),
+      masterArtifactCertification: certification,
+    });
+  }
+}
+
+export async function updateCreditTransformerStats(
+  ownerId: string,
+  transformation: { creditsGenerated: string; shareholderValue: string; transformationRate: string }
+) {
+  const db = await getDb();
+  if (!db) return;
+  
+  const current = await getCreditTransformerStatus(ownerId);
+  if (!current) return;
+  
+  const newTotal = (parseFloat(current.totalCreditsTransformed || "0") + parseFloat(transformation.creditsGenerated)).toFixed(2);
+  const newValue = (parseFloat(current.shareholderValue || "0") + parseFloat(transformation.shareholderValue)).toFixed(2);
+  
+  await db
+    .update(creditTransformer)
+    .set({
+      totalCreditsTransformed: newTotal,
+      shareholderValue: newValue,
+      transformationRate: transformation.transformationRate,
+    })
+    .where(eq(creditTransformer.ownerId, ownerId));
 }

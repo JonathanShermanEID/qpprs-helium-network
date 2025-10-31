@@ -104,3 +104,23 @@ export const rewardsBank = mysqlTable("rewardsBank", {
 
 export type RewardsBank = typeof rewardsBank.$inferSelect;
 export type InsertRewardsBank = typeof rewardsBank.$inferInsert;
+
+// Account Credit Transformer LLM System
+// Master Artifact Certification Holder Only
+// Author: Jonathan Sherman
+export const creditTransformer = mysqlTable("creditTransformer", {
+  id: int("id").autoincrement().primaryKey(),
+  ownerId: varchar("ownerId", { length: 64 }).notNull().unique(),
+  isActivated: int("isActivated").default(0).notNull(), // 0 = inactive, 1 = active (irreversible)
+  activatedAt: timestamp("activatedAt"),
+  masterArtifactCertification: text("masterArtifactCertification"),
+  shareholderValue: varchar("shareholderValue", { length: 50 }).default("0"),
+  totalCreditsTransformed: varchar("totalCreditsTransformed", { length: 50 }).default("0"),
+  transformationRate: varchar("transformationRate", { length: 20 }).default("1.0"),
+  metadata: text("metadata"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type CreditTransformer = typeof creditTransformer.$inferSelect;
+export type InsertCreditTransformer = typeof creditTransformer.$inferInsert;

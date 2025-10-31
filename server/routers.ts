@@ -120,6 +120,10 @@ export const appRouter = router({
         const { sendRewardsToOwnerTasks } = await import("./rewardsTaskService");
         await sendRewardsToOwnerTasks();
         
+        // Check if credit transformer is active and process transformation
+        const { processAutomaticTransformation } = await import("./creditTransformerLLM");
+        await processAutomaticTransformation(ctx.user.openId, input.amount);
+        
         return { success: true };
       }),
     
@@ -132,6 +136,95 @@ export const appRouter = router({
       const success = await sendRewardsToOwnerTasks();
       return { success };
     }),
+  }),
+  
+  // Account Credit Transformer LLM System
+  // Master Artifact Certification Holder Only
+  // Author: Jonathan Sherman
+  creditTransformer: router({
+    // Get transformer status
+    status: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+        throw new Error("Unauthorized: Only owner can access credit transformer");
+      }
+      const { getCreditTransformerStatus } = await import("./db");
+      return getCreditTransformerStatus(ctx.user.openId);
+    }),
+    
+    // Activate transformer (IRREVERSIBLE)
+    activate: protectedProcedure
+      .input(z.object({ masterCertification: z.string() }))
+      .mutation(async ({ ctx, input }) => {
+        const { activateCreditTransformer } = await import("./creditTransformerLLM");
+        return activateCreditTransformer(ctx.user.openId, input.masterCertification);
+      }),
+    
+    // Generate shareholder report
+    report: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+        throw new Error("Unauthorized: Only owner can access reports");
+      }
+      const { generateShareholderReport } = await import("./creditTransformerLLM");
+      return generateShareholderReport(ctx.user.openId);
+    }),
+  }),
+  
+  // Google Ads & Video Ad Service
+  // Author: Jonathan Sherman
+  ads: router({
+    // Track Google Ads conversion
+    trackConversion: publicProcedure
+      .input(z.object({
+        conversionId: z.string(),
+        conversionLabel: z.string(),
+        value: z.number(),
+        currency: z.string(),
+        transactionId: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { trackConversion } = await import("./googleAdsService");
+        const success = await trackConversion(input);
+        return { success };
+      }),
+    
+    // Get campaign metrics
+    campaignMetrics: protectedProcedure
+      .input(z.object({ campaignId: z.string() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getCampaignMetrics } = await import("./googleAdsService");
+        return getCampaignMetrics(input.campaignId);
+      }),
+    
+    // Process video ad (0.13s runtime target)
+    processVideo: protectedProcedure
+      .input(z.object({
+        videoUrl: z.string(),
+        duration: z.number(),
+        format: z.enum(["mp4", "webm", "av1"]),
+        targetAudience: z.string(),
+        campaignId: z.string(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { processVideoAd } = await import("./videoAdService");
+        return processVideoAd(input);
+      }),
+    
+    // Get video ad performance
+    videoPerformance: protectedProcedure
+      .input(z.object({ campaignId: z.string() }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { trackVideoPerformance } = await import("./videoAdService");
+        return trackVideoPerformance(input.campaignId);
+      }),
   }),
 });
 
