@@ -67,3 +67,10 @@
 - [x] Create rewards dashboard page
 - [ ] Implement automatic reward tracking
 - [ ] Add withdrawal/transfer functionality
+
+## Rewards Bank Migration
+- [x] Remove rewards bank UI page
+- [x] Remove rewards bank button from header
+- [x] Create background service to send rewards to owner's Manus tasks
+- [x] Keep backend API for data collection
+- [ ] Test task notification system

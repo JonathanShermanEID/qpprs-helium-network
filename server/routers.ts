@@ -89,26 +89,10 @@ export const appRouter = router({
   
   // Owner-Only Rewards Banking System
   // Author: Jonathan Sherman
+  // Rewards Bank - Backend API Only (UI removed, sends to Manus tasks)
+  // Author: Jonathan Sherman
   rewardsBank: router({
-    balance: protectedProcedure.query(async ({ ctx }) => {
-      // Only allow owner access
-      if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
-        throw new Error("Unauthorized: Only owner can access rewards bank");
-      }
-      const { getOwnerRewardsBalance } = await import("./db");
-      return getOwnerRewardsBalance(ctx.user.openId);
-    }),
-    
-    transactions: protectedProcedure.input(z.object({ limit: z.number().optional() })).query(async ({ ctx, input }) => {
-      // Only allow owner access
-      if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
-        throw new Error("Unauthorized: Only owner can access rewards bank");
-      }
-      const { getOwnerRewards } = await import("./db");
-      const rewards = await getOwnerRewards(ctx.user.openId);
-      return input.limit ? rewards.slice(0, input.limit) : rewards;
-    }),
-    
+    // Internal API - Add reward and notify owner via Manus tasks
     addReward: protectedProcedure
       .input(z.object({
         hotspotId: z.string().optional(),
@@ -131,8 +115,23 @@ export const appRouter = router({
           status: "completed",
           metadata: input.metadata,
         });
+        
+        // Send notification to owner's Manus tasks
+        const { sendRewardsToOwnerTasks } = await import("./rewardsTaskService");
+        await sendRewardsToOwnerTasks();
+        
         return { success: true };
       }),
+    
+    // Internal API - Manually trigger rewards summary to Manus tasks
+    sendToTasks: protectedProcedure.mutation(async ({ ctx }) => {
+      if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+        throw new Error("Unauthorized: Only owner can trigger rewards tasks");
+      }
+      const { sendRewardsToOwnerTasks } = await import("./rewardsTaskService");
+      const success = await sendRewardsToOwnerTasks();
+      return { success };
+    }),
   }),
 });
 

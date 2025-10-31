@@ -9,18 +9,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
-import { Activity, Brain, Network, TrendingUp, Wallet, Zap } from "lucide-react";
+import { Activity, Brain, Network, TrendingUp, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useLocation } from "wouter";
 
 export default function Home() {
   const { user, loading, isAuthenticated } = useAuth();
-  const [, setLocation] = useLocation();
   const { data: crawlerStatus } = trpc.crawlers.status.useQuery();
   const { data: analytics } = trpc.analytics.summary.useQuery();
   const [mounted, setMounted] = useState(false);
-  
-  const isOwner = user?.openId === import.meta.env.VITE_OWNER_OPEN_ID;
 
   useEffect(() => {
     setMounted(true);
@@ -89,16 +85,6 @@ export default function Home() {
               </Button>
             ) : (
               <div className="flex items-center gap-3">
-                {isOwner && (
-                  <Button
-                    onClick={() => setLocation("/rewards")}
-                    variant="outline"
-                    className="relative group overflow-hidden border-primary/30 hover:border-primary/60"
-                  >
-                    <Wallet className="w-4 h-4 mr-2" />
-                    <span className="relative z-10">Rewards Bank</span>
-                  </Button>
-                )}
                 <div className="glass-card px-4 py-2 rounded-full">
                   <p className="text-sm font-medium">{user?.name}</p>
                 </div>
