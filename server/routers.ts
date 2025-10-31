@@ -226,6 +226,134 @@ export const appRouter = router({
         return trackVideoPerformance(input.campaignId);
       }),
   }),
+  
+  // Mass-Scale Automation System
+  // 1024 AI Thinking System
+  // Author: Jonathan Sherman
+  automation: router({
+    // Initialize all markets with 1024 AI analysis
+    initialize: protectedProcedure.mutation(async ({ ctx }) => {
+      if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+        throw new Error("Unauthorized");
+      }
+      const { initializeMassScaleAutomation } = await import("./massScaleAutomation");
+      await initializeMassScaleAutomation();
+      return { success: true };
+    }),
+    
+    // Get 1024 AI market opportunities
+    opportunities: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+        throw new Error("Unauthorized");
+      }
+      const { identifyMassScaleOpportunities } = await import("./ai1024ThinkingSystem");
+      return identifyMassScaleOpportunities();
+    }),
+    
+    // Onboard single customer (automated)
+    onboardCustomer: protectedProcedure
+      .input(z.object({
+        market: z.string(),
+        companyName: z.string(),
+        industry: z.string(),
+        size: z.enum(["small", "medium", "large", "enterprise"]),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getAutomationEngine } = await import("./massScaleAutomation");
+        const engine = getAutomationEngine();
+        return engine.onboardCustomer(input.market, {
+          companyName: input.companyName,
+          industry: input.industry,
+          size: input.size,
+        });
+      }),
+    
+    // Batch onboard customers
+    batchOnboard: protectedProcedure
+      .input(z.object({
+        market: z.string(),
+        count: z.number().min(1).max(10000),
+        industry: z.string(),
+        size: z.enum(["small", "medium", "large", "enterprise"]),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getAutomationEngine } = await import("./massScaleAutomation");
+        const engine = getAutomationEngine();
+        return engine.batchOnboard(input.market, input.count, {
+          industry: input.industry,
+          size: input.size,
+        });
+      }),
+    
+    // Auto-scale to target customer count
+    autoScale: protectedProcedure
+      .input(z.object({
+        market: z.string(),
+        targetCustomers: z.number().min(1).max(100000),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getAutomationEngine } = await import("./massScaleAutomation");
+        const engine = getAutomationEngine();
+        await engine.autoScale(input.market, input.targetCustomers);
+        return { success: true };
+      }),
+    
+    // Get automation statistics
+    stats: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+        throw new Error("Unauthorized");
+      }
+      const { getAutomationEngine } = await import("./massScaleAutomation");
+      const engine = getAutomationEngine();
+      return engine.getStats();
+    }),
+    
+    // Generate revenue report
+    revenueReport: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+        throw new Error("Unauthorized");
+      }
+      const { getAutomationEngine } = await import("./massScaleAutomation");
+      const engine = getAutomationEngine();
+      return engine.generateRevenueReport();
+    }),
+    
+    // Self-Scaling Orchestrator
+    startScaling: protectedProcedure.mutation(async ({ ctx }) => {
+      if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+        throw new Error("Unauthorized");
+      }
+      const { startSelfScaling } = await import("./selfScalingOrchestrator");
+      startSelfScaling();
+      return { success: true };
+    }),
+    
+    stopScaling: protectedProcedure.mutation(async ({ ctx }) => {
+      if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+        throw new Error("Unauthorized");
+      }
+      const { stopSelfScaling } = await import("./selfScalingOrchestrator");
+      stopSelfScaling();
+      return { success: true };
+    }),
+    
+    scalingStatus: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+        throw new Error("Unauthorized");
+      }
+      const { getOrchestrator } = await import("./selfScalingOrchestrator");
+      return getOrchestrator().getStatus();
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
