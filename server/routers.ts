@@ -467,6 +467,151 @@ export const appRouter = router({
         return getIPProtection().trackRoyalties(input.period);
       }),
   }),
+  
+  // Law Enforcement Compatibility System
+  // Forensic evidence collection and legal reporting
+  // Author: Jonathan Sherman
+  lawEnforcement: router({    // Create legal case
+    createCase: protectedProcedure
+      .input(z.object({
+        title: z.string(),
+        violationType: z.enum(["copyright", "trademark", "airplay", "fraud"]),
+        defendant: z.string(),
+        jurisdiction: z.string(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getLawEnforcementSystem } = await import("./lawEnforcementSystem");
+        return getLawEnforcementSystem().createCase(
+          input.title,
+          input.violationType,
+          input.defendant,
+          input.jurisdiction
+        );
+      }),
+    
+    // Collect evidence
+    collectEvidence: protectedProcedure
+      .input(z.object({
+        caseId: z.string(),
+        type: z.enum(["screenshot", "url", "document", "metadata", "communication"]),
+        description: z.string(),
+        data: z.any(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getLawEnforcementSystem } = await import("./lawEnforcementSystem");
+        return getLawEnforcementSystem().collectEvidence(
+          input.caseId,
+          input.type,
+          input.description,
+          input.data
+        );
+      }),
+    
+    // Verify evidence integrity
+    verifyIntegrity: protectedProcedure
+      .input(z.object({
+        evidenceId: z.string(),
+      }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getLawEnforcementSystem } = await import("./lawEnforcementSystem");
+        return getLawEnforcementSystem().verifyIntegrity(input.evidenceId);
+      }),
+    
+    // Generate forensic report
+    generateReport: protectedProcedure
+      .input(z.object({
+        caseId: z.string(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getLawEnforcementSystem } = await import("./lawEnforcementSystem");
+        return getLawEnforcementSystem().generateForensicReport(input.caseId);
+      }),
+    
+    // Submit to law enforcement
+    submitCase: protectedProcedure
+      .input(z.object({
+        caseId: z.string(),
+        agency: z.string(),
+        officerName: z.string(),
+        officerEmail: z.string(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getLawEnforcementSystem } = await import("./lawEnforcementSystem");
+        return getLawEnforcementSystem().submitToLawEnforcement(
+          input.caseId,
+          input.agency,
+          input.officerName,
+          input.officerEmail
+        );
+      }),
+    
+    // Generate evidence package
+    generatePackage: protectedProcedure
+      .input(z.object({
+        caseId: z.string(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getLawEnforcementSystem } = await import("./lawEnforcementSystem");
+        return getLawEnforcementSystem().generateEvidencePackage(input.caseId);
+      }),
+    
+    // Get case status
+    getCaseStatus: protectedProcedure
+      .input(z.object({
+        caseId: z.string(),
+      }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getLawEnforcementSystem } = await import("./lawEnforcementSystem");
+        return getLawEnforcementSystem().getCaseStatus(input.caseId);
+      }),
+    
+    // Get evidence details
+    getEvidence: protectedProcedure
+      .input(z.object({
+        evidenceId: z.string(),
+      }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getLawEnforcementSystem } = await import("./lawEnforcementSystem");
+        return getLawEnforcementSystem().getEvidence(input.evidenceId);
+      }),
+    
+    // Get chain of custody
+    getChainOfCustody: protectedProcedure
+      .input(z.object({
+        evidenceId: z.string(),
+      }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getLawEnforcementSystem } = await import("./lawEnforcementSystem");
+        return getLawEnforcementSystem().getChainOfCustody(input.evidenceId);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
