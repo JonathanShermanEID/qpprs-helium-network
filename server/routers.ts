@@ -354,6 +354,119 @@ export const appRouter = router({
       return getOrchestrator().getStatus();
     }),
   }),
+  
+  // Intellectual Property Protection System
+  // "real sexy" brand protection
+  // Author: Jonathan Sherman
+  ipProtection: router({
+    // Setup complete IP protection
+    setupProtection: protectedProcedure.mutation(async ({ ctx }) => {
+      if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+        throw new Error("Unauthorized");
+      }
+      const { getIPProtection } = await import("./ipProtectionSystem");
+      return getIPProtection().setupCompleteProtection();
+    }),
+    
+    // Generate digital certificate
+    generateCertificate: protectedProcedure.mutation(async ({ ctx }) => {
+      if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+        throw new Error("Unauthorized");
+      }
+      const { getIPProtection } = await import("./ipProtectionSystem");
+      return getIPProtection().generateDigitalCertificate();
+    }),
+    
+    // Register copyright
+    registerCopyright: protectedProcedure
+      .input(z.object({
+        workTitle: z.string(),
+        workType: z.enum(["brand", "logo", "slogan", "content", "music"]),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getIPProtection } = await import("./ipProtectionSystem");
+        return getIPProtection().registerCopyright(input.workTitle, input.workType);
+      }),
+    
+    // Establish airplay rights
+    establishAirplayRights: protectedProcedure
+      .input(z.object({
+        contentTitle: z.string(),
+        territories: z.array(z.string()),
+        platforms: z.array(z.string()),
+        durationYears: z.number().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getIPProtection } = await import("./ipProtectionSystem");
+        return getIPProtection().establishAirplayRights(
+          input.contentTitle,
+          input.territories,
+          input.platforms,
+          input.durationYears
+        );
+      }),
+    
+    // Register trademark
+    registerTrademark: protectedProcedure
+      .input(z.object({
+        mark: z.string(),
+        classes: z.array(z.number()),
+        jurisdictions: z.array(z.string()),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getIPProtection } = await import("./ipProtectionSystem");
+        return getIPProtection().registerTrademark(input.mark, input.classes, input.jurisdictions);
+      }),
+    
+    // Detect violations
+    detectViolations: protectedProcedure
+      .input(z.object({
+        searchQuery: z.string(),
+      }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getIPProtection } = await import("./ipProtectionSystem");
+        return getIPProtection().detectViolations(input.searchQuery);
+      }),
+    
+    // Send DMCA takedown
+    sendDMCA: protectedProcedure
+      .input(z.object({
+        violationUrl: z.string(),
+        platform: z.string(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getIPProtection } = await import("./ipProtectionSystem");
+        return getIPProtection().sendDMCATakedown(input.violationUrl, input.platform);
+      }),
+    
+    // Track royalties
+    trackRoyalties: protectedProcedure
+      .input(z.object({
+        period: z.enum(["daily", "weekly", "monthly"]),
+      }))
+      .query(async ({ ctx, input }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized");
+        }
+        const { getIPProtection } = await import("./ipProtectionSystem");
+        return getIPProtection().trackRoyalties(input.period);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
