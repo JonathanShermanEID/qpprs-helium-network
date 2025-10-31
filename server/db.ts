@@ -7,9 +7,11 @@ import {
   InsertAnalytic,
   InsertCrawlerLog,
   InsertHotspot,
+  InsertRewardsBank,
   InsertTask,
   InsertUser,
   InsertWebhookEvent,
+  rewardsBank,
   tasks,
   users,
   webhookEvents,
@@ -226,4 +228,74 @@ export async function insertAnalytic(data: InsertAnalytic) {
   const db = await getDb();
   if (!db) return;
   await db.insert(analytics).values(data);
+}
+
+// Owner-Only Rewards Banking Functions
+// Author: Jonathan Sherman
+
+export async function getOwnerRewards(ownerId: string) {
+  const db = await getDb();
+  if (!db) return [];
+  const result = await db
+    .select()
+    .from(rewardsBank)
+    .where(eq(rewardsBank.ownerId, ownerId))
+    .orderBy(desc(rewardsBank.createdAt));
+  return result;
+}
+
+export async function getOwnerRewardsBalance(ownerId: string) {
+  const db = await getDb();
+  if (!db) return { total: "0", pending: "0", completed: "0" };
+  
+  const rewards = await db
+    .select()
+    .from(rewardsBank)
+    .where(eq(rewardsBank.ownerId, ownerId));
+  
+  let total = 0;
+  let pending = 0;
+  let completed = 0;
+  
+  rewards.forEach(r => {
+    const amount = parseFloat(r.amount) || 0;
+    if (r.transactionType === "reward") {
+      total += amount;
+      if (r.status === "completed") completed += amount;
+      if (r.status === "pending") pending += amount;
+    } else if (r.transactionType === "withdrawal" && r.status === "completed") {
+      total -= amount;
+      completed -= amount;
+    }
+  });
+  
+  return {
+    total: total.toFixed(8),
+    pending: pending.toFixed(8),
+    completed: completed.toFixed(8),
+  };
+}
+
+export async function insertReward(data: InsertRewardsBank) {
+  const db = await getDb();
+  if (!db) return;
+  // Only allow owner to insert rewards
+  if (data.ownerId !== ENV.ownerOpenId) {
+    throw new Error("Unauthorized: Only owner can access rewards bank");
+  }
+  await db.insert(rewardsBank).values(data);
+}
+
+export async function getRewardsByHotspot(ownerId: string, hotspotId: string) {
+  const db = await getDb();
+  if (!db) return [];
+  if (ownerId !== ENV.ownerOpenId) {
+    throw new Error("Unauthorized: Only owner can access rewards bank");
+  }
+  const result = await db
+    .select()
+    .from(rewardsBank)
+    .where(eq(rewardsBank.hotspotId, hotspotId))
+    .orderBy(desc(rewardsBank.createdAt));
+  return result;
 }

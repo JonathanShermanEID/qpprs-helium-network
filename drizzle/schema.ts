@@ -87,3 +87,20 @@ export type Task = typeof tasks.$inferSelect;
 export type InsertTask = typeof tasks.$inferInsert;
 export type Analytic = typeof analytics.$inferSelect;
 export type InsertAnalytic = typeof analytics.$inferInsert;
+
+// Owner-Only Rewards Banking System
+// Author: Jonathan Sherman
+export const rewardsBank = mysqlTable("rewardsBank", {
+  id: int("id").autoincrement().primaryKey(),
+  ownerId: varchar("ownerId", { length: 64 }).notNull(),
+  hotspotId: varchar("hotspotId", { length: 128 }),
+  amount: varchar("amount", { length: 50 }).notNull(),
+  currency: varchar("currency", { length: 10 }).default("HNT").notNull(),
+  transactionType: mysqlEnum("transactionType", ["reward", "withdrawal", "transfer"]).default("reward").notNull(),
+  status: mysqlEnum("status", ["pending", "completed", "failed"]).default("completed").notNull(),
+  metadata: text("metadata"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type RewardsBank = typeof rewardsBank.$inferSelect;
+export type InsertRewardsBank = typeof rewardsBank.$inferInsert;

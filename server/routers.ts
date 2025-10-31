@@ -86,6 +86,54 @@ export const appRouter = router({
       };
     }),
   }),
+  
+  // Owner-Only Rewards Banking System
+  // Author: Jonathan Sherman
+  rewardsBank: router({
+    balance: protectedProcedure.query(async ({ ctx }) => {
+      // Only allow owner access
+      if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+        throw new Error("Unauthorized: Only owner can access rewards bank");
+      }
+      const { getOwnerRewardsBalance } = await import("./db");
+      return getOwnerRewardsBalance(ctx.user.openId);
+    }),
+    
+    transactions: protectedProcedure.input(z.object({ limit: z.number().optional() })).query(async ({ ctx, input }) => {
+      // Only allow owner access
+      if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+        throw new Error("Unauthorized: Only owner can access rewards bank");
+      }
+      const { getOwnerRewards } = await import("./db");
+      const rewards = await getOwnerRewards(ctx.user.openId);
+      return input.limit ? rewards.slice(0, input.limit) : rewards;
+    }),
+    
+    addReward: protectedProcedure
+      .input(z.object({
+        hotspotId: z.string().optional(),
+        amount: z.string(),
+        currency: z.string().optional(),
+        metadata: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        // Only allow owner to add rewards
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error("Unauthorized: Only owner can add rewards");
+        }
+        const { insertReward } = await import("./db");
+        await insertReward({
+          ownerId: ctx.user.openId,
+          hotspotId: input.hotspotId,
+          amount: input.amount,
+          currency: input.currency || "HNT",
+          transactionType: "reward",
+          status: "completed",
+          metadata: input.metadata,
+        });
+        return { success: true };
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

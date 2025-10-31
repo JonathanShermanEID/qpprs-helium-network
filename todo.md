@@ -59,3 +59,11 @@
 - [ ] Configure container networking
 - [ ] Set up volume mounts
 - [ ] Create container health checks
+
+## Owner-Only Rewards Banking
+- [x] Create rewards_bank table with owner restriction
+- [x] Implement owner-only access control
+- [x] Add rewards collection endpoint
+- [x] Create rewards dashboard page
+- [ ] Implement automatic reward tracking
+- [ ] Add withdrawal/transfer functionality
