@@ -29,6 +29,39 @@ export const appRouter = router({
       const { getHotspotById } = await import("./db");
       return getHotspotById(input.hotspotId);
     }),
+    discoverAll: protectedProcedure
+      .input(z.object({ limit: z.number().optional() }).optional())
+      .query(async ({ input, ctx }) => {
+        const { ENV } = await import('./_core/env');
+        if (ctx.user.openId !== ENV.ownerOpenId) throw new Error('Owner only');
+        const { heliumHotspotIntegration } = await import('./heliumHotspotIntegration');
+        return heliumHotspotIntegration.discoverAllHotspots(input?.limit);
+      }),
+    getByAddress: publicProcedure
+      .input(z.object({ address: z.string() }))
+      .query(async ({ input }) => {
+        const { heliumHotspotIntegration } = await import('./heliumHotspotIntegration');
+        return heliumHotspotIntegration.getHotspotByAddress(input.address);
+      }),
+    searchByLocation: publicProcedure
+      .input(z.object({ lat: z.number(), lng: z.number(), distance: z.number().optional() }))
+      .query(async ({ input }) => {
+        const { heliumHotspotIntegration } = await import('./heliumHotspotIntegration');
+        return heliumHotspotIntegration.searchHotspotsByLocation(input.lat, input.lng, input.distance);
+      }),
+    generateCertificate: protectedProcedure
+      .input(z.object({ hotspotAddress: z.string(), ownerAddress: z.string() }))
+      .mutation(async ({ input, ctx }) => {
+        const { ENV } = await import('./_core/env');
+        if (ctx.user.openId !== ENV.ownerOpenId) throw new Error('Owner only');
+        const { heliumHotspotIntegration } = await import('./heliumHotspotIntegration');
+        return heliumHotspotIntegration.generateAuthenticationCertificate(input.hotspotAddress, input.ownerAddress);
+      }),
+    getNetworkStats: publicProcedure
+      .query(async () => {
+        const { heliumHotspotIntegration } = await import('./heliumHotspotIntegration');
+        return heliumHotspotIntegration.getNetworkStats();
+      }),
   }),
   
   crawlers: router({
@@ -227,7 +260,7 @@ export const appRouter = router({
       }),
   }),
   
-  // Mass-Scale Automation System
+  // Mass-scale automation System
   // 1024 AI Thinking System
   // Author: Jonathan Sherman
   automation: router({
