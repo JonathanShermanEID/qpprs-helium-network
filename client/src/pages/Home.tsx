@@ -6,10 +6,12 @@
 
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
+import { Network3DVisualization } from "@/components/Network3DVisualization";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
-import { Activity, Brain, Network, TrendingUp, Zap } from "lucide-react";
+import { Activity, Brain, Network, TrendingUp, Zap, Radio, Cpu, Sparkles } from "lucide-react";
+import { MicrosoftGlyph } from "@/components/MicrosoftGlyph";
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 
@@ -100,7 +102,13 @@ export default function Home() {
       {/* Main Content */}
       <main className="container mx-auto px-6 py-12">
         {/* Hero Section */}
-        <div className={`text-center mb-16 transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`text-center max-w-4xl mx-auto transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}>
+          {/* Microsoft Holo Blue Glyphs Header */}
+          <div className="flex items-center justify-center gap-4 mb-8">
+            <MicrosoftGlyph icon={Radio} size="sm" variant="primary" />
+            <MicrosoftGlyph icon={Cpu} size="md" variant="primary" />
+            <MicrosoftGlyph icon={Sparkles} size="sm" variant="primary" />
+          </div>
           <div className="inline-block mb-4">
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary blur-2xl opacity-50 animate-pulse" />
@@ -248,8 +256,8 @@ export default function Home() {
             onClick={() => setLocation('/network')}
           >
             <CardHeader>
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Network className="w-6 h-6 text-primary" />
+              <div className="mb-4">
+                <MicrosoftGlyph icon={Network} size="md" variant="primary" />
               </div>
               <CardTitle>Network Intelligence</CardTitle>
               <CardDescription>
@@ -263,8 +271,8 @@ export default function Home() {
             onClick={() => setLocation('/rewards')}
           >
             <CardHeader>
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <TrendingUp className="w-6 h-6 text-accent" />
+              <div className="mb-4">
+                <MicrosoftGlyph icon={TrendingUp} size="md" variant="accent" />
               </div>
               <CardTitle>Reward Optimization</CardTitle>
               <CardDescription>
@@ -278,8 +286,8 @@ export default function Home() {
             onClick={() => setLocation('/analytics')}
           >
             <CardHeader>
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-accent/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Brain className="w-6 h-6 text-primary" />
+              <div className="mb-4">
+                <MicrosoftGlyph icon={Brain} size="md" variant="success" />
               </div>
               <CardTitle>Predictive Analytics</CardTitle>
               <CardDescription>
@@ -287,6 +295,11 @@ export default function Home() {
               </CardDescription>
             </CardHeader>
           </Card>
+        </div>
+
+        {/* 3D Network Visualization - Microsoft Holo Blue */}
+        <div className="mt-16">
+          <Network3DVisualization />
         </div>
       </main>
 
