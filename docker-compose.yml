@@ -1,0 +1,52 @@
+# Docker Compose for Helium-Manus Integration Platform
+# Author: Jonathan Sherman
+
+version: '3.8'
+
+services:
+  # Main application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: helium-manus-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - OAUTH_SERVER_URL=${OAUTH_SERVER_URL}
+      - VITE_OAUTH_PORTAL_URL=${VITE_OAUTH_PORTAL_URL}
+      - VITE_APP_ID=${VITE_APP_ID}
+      - VITE_APP_TITLE=${VITE_APP_TITLE}
+      - VITE_APP_LOGO=${VITE_APP_LOGO}
+      - OWNER_OPEN_ID=${OWNER_OPEN_ID}
+      - OWNER_NAME=${OWNER_NAME}
+      - BUILT_IN_FORGE_API_URL=${BUILT_IN_FORGE_API_URL}
+      - BUILT_IN_FORGE_API_KEY=${BUILT_IN_FORGE_API_KEY}
+      - VITE_ANALYTICS_ENDPOINT=${VITE_ANALYTICS_ENDPOINT}
+      - VITE_ANALYTICS_WEBSITE_ID=${VITE_ANALYTICS_WEBSITE_ID}
+    networks:
+      - helium-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 40s
+    labels:
+      - "com.helium-manus.description=Helium-Manus Integration Platform"
+      - "com.helium-manus.author=Jonathan Sherman"
+      - "com.helium-manus.version=1.0.0"
+
+networks:
+  helium-network:
+    driver: bridge
+    name: helium-manus-network
+
+volumes:
+  app-data:
+    name: helium-manus-data

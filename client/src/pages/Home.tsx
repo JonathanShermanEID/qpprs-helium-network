@@ -11,12 +11,14 @@ import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
 import { Activity, Brain, Network, TrendingUp, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useLocation } from "wouter";
 
 export default function Home() {
   const { user, loading, isAuthenticated } = useAuth();
   const { data: crawlerStatus } = trpc.crawlers.status.useQuery();
   const { data: analytics } = trpc.analytics.summary.useQuery();
   const [mounted, setMounted] = useState(false);
+  const [, setLocation] = useLocation();
 
   useEffect(() => {
     setMounted(true);
@@ -241,7 +243,10 @@ export default function Home() {
 
         {/* Features Grid */}
         <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-1000 delay-600 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <Card className="glass-card border-primary/30 hover:border-primary/60 transition-all group cursor-pointer">
+          <Card 
+            className="glass-card border-primary/30 hover:border-primary/60 transition-all group cursor-pointer"
+            onClick={() => setLocation('/network')}
+          >
             <CardHeader>
               <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                 <Network className="w-6 h-6 text-primary" />
@@ -253,7 +258,10 @@ export default function Home() {
             </CardHeader>
           </Card>
 
-          <Card className="glass-card border-accent/30 hover:border-accent/60 transition-all group cursor-pointer">
+          <Card 
+            className="glass-card border-accent/30 hover:border-accent/60 transition-all group cursor-pointer"
+            onClick={() => setLocation('/rewards')}
+          >
             <CardHeader>
               <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                 <TrendingUp className="w-6 h-6 text-accent" />
@@ -265,7 +273,10 @@ export default function Home() {
             </CardHeader>
           </Card>
 
-          <Card className="glass-card border-primary/30 hover:border-primary/60 transition-all group cursor-pointer">
+          <Card 
+            className="glass-card border-primary/30 hover:border-primary/60 transition-all group cursor-pointer"
+            onClick={() => setLocation('/analytics')}
+          >
             <CardHeader>
               <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-accent/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                 <Brain className="w-6 h-6 text-primary" />
