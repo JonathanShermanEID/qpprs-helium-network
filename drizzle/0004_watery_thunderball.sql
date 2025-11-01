@@ -1,0 +1,40 @@
+CREATE TABLE `gateways` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`gatewayId` varchar(128) NOT NULL,
+	`name` varchar(255),
+	`type` enum('primary','secondary','edge') NOT NULL DEFAULT 'secondary',
+	`status` enum('online','offline','maintenance') NOT NULL DEFAULT 'offline',
+	`location` text,
+	`latitude` varchar(50),
+	`longitude` varchar(50),
+	`signalStrength` varchar(20),
+	`connectedHotspots` int NOT NULL DEFAULT 0,
+	`bandwidth` varchar(50),
+	`uptime` varchar(50),
+	`lastSeen` timestamp,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `gateways_id` PRIMARY KEY(`id`),
+	CONSTRAINT `gateways_gatewayId_unique` UNIQUE(`gatewayId`)
+);
+--> statement-breakpoint
+CREATE TABLE `repeaters` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`repeaterId` varchar(128) NOT NULL,
+	`name` varchar(255),
+	`gatewayId` varchar(128),
+	`status` enum('online','offline','maintenance') NOT NULL DEFAULT 'offline',
+	`location` text,
+	`latitude` varchar(50),
+	`longitude` varchar(50),
+	`signalStrength` varchar(20),
+	`amplificationFactor` varchar(20) DEFAULT '2.0',
+	`coverageRadius` varchar(50),
+	`connectedDevices` int NOT NULL DEFAULT 0,
+	`powerMode` enum('high','medium','low','eco') NOT NULL DEFAULT 'medium',
+	`lastSeen` timestamp,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `repeaters_id` PRIMARY KEY(`id`),
+	CONSTRAINT `repeaters_repeaterId_unique` UNIQUE(`repeaterId`)
+);

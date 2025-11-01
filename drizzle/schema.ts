@@ -124,3 +124,47 @@ export const creditTransformer = mysqlTable("creditTransformer", {
 
 export type CreditTransformer = typeof creditTransformer.$inferSelect;
 export type InsertCreditTransformer = typeof creditTransformer.$inferInsert;
+
+// Helium Network Gateways & Repeaters
+// Author: Jonathan Sherman
+export const gateways = mysqlTable("gateways", {
+  id: int("id").autoincrement().primaryKey(),
+  gatewayId: varchar("gatewayId", { length: 128 }).notNull().unique(),
+  name: varchar("name", { length: 255 }),
+  type: mysqlEnum("type", ["primary", "secondary", "edge"]).default("secondary").notNull(),
+  status: mysqlEnum("status", ["online", "offline", "maintenance"]).default("offline").notNull(),
+  location: text("location"),
+  latitude: varchar("latitude", { length: 50 }),
+  longitude: varchar("longitude", { length: 50 }),
+  signalStrength: varchar("signalStrength", { length: 20 }),
+  connectedHotspots: int("connectedHotspots").default(0).notNull(),
+  bandwidth: varchar("bandwidth", { length: 50 }),
+  uptime: varchar("uptime", { length: 50 }),
+  lastSeen: timestamp("lastSeen"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const repeaters = mysqlTable("repeaters", {
+  id: int("id").autoincrement().primaryKey(),
+  repeaterId: varchar("repeaterId", { length: 128 }).notNull().unique(),
+  name: varchar("name", { length: 255 }),
+  gatewayId: varchar("gatewayId", { length: 128 }),
+  status: mysqlEnum("status", ["online", "offline", "maintenance"]).default("offline").notNull(),
+  location: text("location"),
+  latitude: varchar("latitude", { length: 50 }),
+  longitude: varchar("longitude", { length: 50 }),
+  signalStrength: varchar("signalStrength", { length: 20 }),
+  amplificationFactor: varchar("amplificationFactor", { length: 20 }).default("2.0"),
+  coverageRadius: varchar("coverageRadius", { length: 50 }),
+  connectedDevices: int("connectedDevices").default(0).notNull(),
+  powerMode: mysqlEnum("powerMode", ["high", "medium", "low", "eco"]).default("medium").notNull(),
+  lastSeen: timestamp("lastSeen"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Gateway = typeof gateways.$inferSelect;
+export type InsertGateway = typeof gateways.$inferInsert;
+export type Repeater = typeof repeaters.$inferSelect;
+export type InsertRepeater = typeof repeaters.$inferInsert;
