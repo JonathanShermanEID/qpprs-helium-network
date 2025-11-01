@@ -352,3 +352,10 @@
 - [x] Remove auth check from Analytics page
 - [x] Make all pages publicly accessible
 - [x] Test public access without login
+
+## Replace with Real Helium Hotspots
+- [x] Research real active Helium hotspots
+- [x] Collect verified hotspot data (names, locations, status)
+- [x] Update database with real hotspot information
+- [x] Verify all hotspots are currently operational
+- [x] Test hotspot display with real data
