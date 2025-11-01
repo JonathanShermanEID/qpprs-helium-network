@@ -7,6 +7,7 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Network3DVisualization } from "@/components/Network3DVisualization";
+import '@/utils/errorMonitoring'; // Initialize 100 frontend AI error fixers
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
