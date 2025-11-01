@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
 import { ArrowLeft, MapPin, Network, Radio, TrendingUp } from "lucide-react";
+import NetworkTopology3D from "@/components/NetworkTopology3D";
 import { useLocation } from "wouter";
 
 export default function NetworkIntelligence() {
@@ -130,7 +131,14 @@ export default function NetworkIntelligence() {
               </Card>
             </div>
 
+            {/* 3D Network Topology Visualization */}
+            <NetworkTopology3D 
+              hotspotCount={hotspots?.length || 100}
+              networkDensity="medium"
+            />
+
             {/* Hotspots List */}
+            <div className="mt-8" />
             <Card className="glass-card border-primary/30">
               <CardHeader>
                 <CardTitle>Active Hotspots</CardTitle>

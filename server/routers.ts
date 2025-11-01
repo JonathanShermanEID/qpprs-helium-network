@@ -1,5 +1,6 @@
 import { COOKIE_NAME } from "@shared/const";
 import { z } from "zod";
+import { tripo3DService } from "./tripo3DService";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { protectedProcedure, publicProcedure, router } from "./_core/trpc";
@@ -711,6 +712,49 @@ export const appRouter = router({
         }
         const { getLawEnforcementSystem } = await import("./lawEnforcementSystem");
         return getLawEnforcementSystem().getChainOfCustody(input.evidenceId);
+      }),
+  }),
+
+  // 3D Visualization Router
+  // Author: Jonathan Sherman
+  visualization: router({
+    generate3DTopology: protectedProcedure
+      .input(z.object({
+        hotspotCount: z.number(),
+        networkDensity: z.enum(['low', 'medium', 'high']),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        // Owner-only access
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error('Unauthorized: Owner access required');
+        }
+
+        const modelUrl = await tripo3DService.generateNetworkTopology3D(
+          input.hotspotCount,
+          input.networkDensity
+        );
+
+        return {
+          modelUrl,
+          author: 'Jonathan Sherman',
+        };
+      }),
+    
+    generateHotspot3D: protectedProcedure
+      .input(z.object({
+        hotspotType: z.string(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+          throw new Error('Unauthorized: Owner access required');
+        }
+
+        const modelUrl = await tripo3DService.generateHotspot3DModel(input.hotspotType);
+
+        return {
+          modelUrl,
+          author: 'Jonathan Sherman',
+        };
       }),
   }),
 });
