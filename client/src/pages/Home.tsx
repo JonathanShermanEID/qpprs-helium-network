@@ -251,7 +251,7 @@ export default function Home() {
         )}
 
         {/* Features Grid */}
-        <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-1000 delay-600 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-1000 delay-600 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <Card 
             className="glass-card border-primary/30 hover:border-primary/60 transition-all group cursor-pointer"
             onClick={() => setLocation('/network')}
@@ -293,6 +293,21 @@ export default function Home() {
               <CardTitle>Predictive Analytics</CardTitle>
               <CardDescription>
                 Self-learning algorithms that adapt and improve over time
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card 
+            className="glass-card border-accent/30 hover:border-accent/60 transition-all group cursor-pointer"
+            onClick={() => setLocation('/lora-devices')}
+          >
+            <CardHeader>
+              <div className="mb-4">
+                <MicrosoftGlyph icon={Radio} size="md" variant="accent" />
+              </div>
+              <CardTitle>LoRa Detector</CardTitle>
+              <CardDescription>
+                GPS tracking and device management with Google Maps integration
               </CardDescription>
             </CardHeader>
           </Card>

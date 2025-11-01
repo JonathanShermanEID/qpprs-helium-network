@@ -213,6 +213,20 @@ export default function LoRaDevices() {
                               <p className="font-semibold">{device.location}</p>
                             </div>
                           )}
+                          <div className="mt-3">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="w-full border-accent/50 hover:bg-accent/10"
+                              onClick={() => window.open(
+                                `https://www.google.com/maps?q=${device.gps.latitude},${device.gps.longitude}`,
+                                '_blank'
+                              )}
+                            >
+                              <MapPin className="w-4 h-4 mr-2" />
+                              View on Google Maps
+                            </Button>
+                          </div>
                         </div>
                       ) : (
                         <p className="text-sm text-muted-foreground">No GPS data available</p>
