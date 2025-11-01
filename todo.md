@@ -344,3 +344,11 @@
 - [x] Ensure all tabs lead to working pages
 - [x] Add breadcrumb navigation
 - [x] Test all navigation paths
+
+## Remove Authentication Requirements
+- [x] Remove auth check from LoRa Devices page
+- [x] Remove auth check from Network Intelligence page
+- [x] Remove auth check from Rewards page
+- [x] Remove auth check from Analytics page
+- [x] Make all pages publicly accessible
+- [x] Test public access without login

@@ -19,20 +19,11 @@ export default function Rewards() {
   const [, setLocation] = useLocation();
   const [isConverting, setIsConverting] = useState(false);
 
-  const { data: balance, refetch: refetchBalance } = trpc.rewards.getBalance.useQuery(
-    undefined,
-    { enabled: isAuthenticated }
-  );
+  const { data: balance, refetch: refetchBalance } = trpc.rewards.getBalance.useQuery();
   
-  const { data: stats } = trpc.rewards.getStats.useQuery(
-    undefined,
-    { enabled: isAuthenticated }
-  );
+  const { data: stats } = trpc.rewards.getStats.useQuery();
   
-  const { data: history } = trpc.rewards.getConversionHistory.useQuery(
-    { limit: 5 },
-    { enabled: isAuthenticated }
-  );
+  const { data: history } = trpc.rewards.getConversionHistory.useQuery({ limit: 5 });
 
   const convertMutation = trpc.rewards.convertToCredits.useMutation({
     onSuccess: (data) => {
@@ -61,18 +52,7 @@ export default function Rewards() {
     convertMutation.mutate({ hntAmount: balance.hnt });
   };
 
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Card className="glass-card max-w-md">
-          <CardHeader>
-            <CardTitle>Authentication Required</CardTitle>
-            <CardDescription>Please sign in to access Rewards Optimization</CardDescription>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  }
+  // Public access - no authentication required
 
   return (
     <div className="min-h-screen relative overflow-hidden">

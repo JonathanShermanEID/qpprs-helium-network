@@ -19,12 +19,12 @@ export default function LoRaDevices() {
 
   const { data: devices, refetch } = trpc.lora.getDevices.useQuery(
     undefined,
-    { enabled: isAuthenticated, refetchInterval: 5000 }
+    { refetchInterval: 5000 }
   );
 
   const { data: status } = trpc.lora.getStatus.useQuery(
     undefined,
-    { enabled: isAuthenticated, refetchInterval: 3000 }
+    { refetchInterval: 3000 }
   );
 
   const powerOnMutation = trpc.lora.powerOn.useMutation({
@@ -41,18 +41,7 @@ export default function LoRaDevices() {
     },
   });
 
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Card className="glass-card max-w-md">
-          <CardHeader>
-            <CardTitle>Authentication Required</CardTitle>
-            <CardDescription>Please sign in to access LoRa Devices</CardDescription>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  }
+  // Public access - no authentication required
 
   return (
     <div className="min-h-screen relative overflow-hidden">
