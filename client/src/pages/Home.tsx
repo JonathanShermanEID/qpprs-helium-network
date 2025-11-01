@@ -11,7 +11,7 @@ import '@/utils/errorMonitoring'; // Initialize 100 frontend AI error fixers
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
-import { Activity, Brain, Network, TrendingUp, Zap, Radio, Cpu, Sparkles } from "lucide-react";
+import { Activity, Brain, Network, TrendingUp, Zap, Radio, Cpu, Sparkles, Cable, Phone } from "lucide-react";
 import { MicrosoftGlyph } from "@/components/MicrosoftGlyph";
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
@@ -251,7 +251,7 @@ export default function Home() {
         )}
 
         {/* Features Grid */}
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-1000 delay-600 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-1000 delay-600 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <Card 
             className="glass-card border-primary/30 hover:border-primary/60 transition-all group cursor-pointer"
             onClick={() => setLocation('/network')}
@@ -308,6 +308,36 @@ export default function Home() {
               <CardTitle>LoRa Detector</CardTitle>
               <CardDescription>
                 GPS tracking and device management with Google Maps integration
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card 
+            className="glass-card border-primary/30 hover:border-primary/60 transition-all group cursor-pointer"
+            onClick={() => setLocation('/hybrid-network')}
+          >
+            <CardHeader>
+              <div className="mb-4">
+                <MicrosoftGlyph icon={Cable} size="md" variant="primary" />
+              </div>
+              <CardTitle>Hybrid Network</CardTitle>
+              <CardDescription>
+                Fiber optic & cable infrastructure linking LoRa mesh with high-speed networks
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card 
+            className="glass-card border-accent/30 hover:border-accent/60 transition-all group cursor-pointer"
+            onClick={() => setLocation('/telecommunications')}
+          >
+            <CardHeader>
+              <div className="mb-4">
+                <MicrosoftGlyph icon={Phone} size="md" variant="success" />
+              </div>
+              <CardTitle>Telecommunications</CardTitle>
+              <CardDescription>
+                Voice, text & data provisioning over the hybrid mesh network
               </CardDescription>
             </CardHeader>
           </Card>

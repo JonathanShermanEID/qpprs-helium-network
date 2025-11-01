@@ -365,3 +365,126 @@ export async function updateCreditTransformerStats(
     })
     .where(eq(creditTransformer.ownerId, ownerId));
 }
+
+// Hybrid Network Database Functions (Fiber & Cable)
+// Author: Jonathan Sherman - Monaco Edition 🏎️
+
+export async function getFiberConnections() {
+  const { fiberConnections } = await import("../drizzle/schema");
+  const db = await getDb();
+  if (!db) return [];
+  const result = await db.select().from(fiberConnections);
+  return result;
+}
+
+export async function getCableConnections() {
+  const { cableConnections } = await import("../drizzle/schema");
+  const db = await getDb();
+  if (!db) return [];
+  const result = await db.select().from(cableConnections);
+  return result;
+}
+
+export async function getFiberConnectionById(connectionId: string) {
+  const { fiberConnections } = await import("../drizzle/schema");
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db
+    .select()
+    .from(fiberConnections)
+    .where(eq(fiberConnections.connectionId, connectionId))
+    .limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function getCableConnectionById(connectionId: string) {
+  const { cableConnections } = await import("../drizzle/schema");
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db
+    .select()
+    .from(cableConnections)
+    .where(eq(cableConnections.connectionId, connectionId))
+    .limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function getConnectionsByNode(nodeId: string) {
+  const { fiberConnections, cableConnections } = await import("../drizzle/schema");
+  const db = await getDb();
+  if (!db) return { fiber: [], cable: [] };
+  
+  const [fiber, cable] = await Promise.all([
+    db.select().from(fiberConnections).where(
+      eq(fiberConnections.sourceNodeId, nodeId)
+    ),
+    db.select().from(cableConnections).where(
+      eq(cableConnections.sourceNodeId, nodeId)
+    )
+  ]);
+  
+  return { fiber, cable };
+}
+
+// Telecommunications Provisioning Database Functions
+// Author: Jonathan Sherman - Monaco Edition 🏎️
+
+export async function getVoiceProvisioning(userId: string) {
+  const { voiceProvisioning } = await import("../drizzle/schema");
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db
+    .select()
+    .from(voiceProvisioning)
+    .where(eq(voiceProvisioning.userId, userId))
+    .limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function getAllVoiceProvisioning() {
+  const { voiceProvisioning } = await import("../drizzle/schema");
+  const db = await getDb();
+  if (!db) return [];
+  const result = await db.select().from(voiceProvisioning);
+  return result;
+}
+
+export async function getTextProvisioning(userId: string) {
+  const { textProvisioning } = await import("../drizzle/schema");
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db
+    .select()
+    .from(textProvisioning)
+    .where(eq(textProvisioning.userId, userId))
+    .limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function getAllTextProvisioning() {
+  const { textProvisioning } = await import("../drizzle/schema");
+  const db = await getDb();
+  if (!db) return [];
+  const result = await db.select().from(textProvisioning);
+  return result;
+}
+
+export async function getDataProvisioning(userId: string) {
+  const { dataProvisioning } = await import("../drizzle/schema");
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db
+    .select()
+    .from(dataProvisioning)
+    .where(eq(dataProvisioning.userId, userId))
+    .limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function getAllDataProvisioning() {
+  const { dataProvisioning } = await import("../drizzle/schema");
+  const db = await getDb();
+  if (!db) return [];
+  const result = await db.select().from(dataProvisioning);
+  return result;
+}

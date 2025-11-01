@@ -9,6 +9,8 @@ import NetworkIntelligence from "./pages/NetworkIntelligence";
 import Rewards from "./pages/Rewards";
 import Analytics from "./pages/Analytics";
 import LoRaDevices from "./pages/LoRaDevices";
+import HybridNetwork from "./pages/HybridNetwork";
+import Telecommunications from "./pages/Telecommunications";
 import { NetworkStatusIndicator } from "./components/NetworkStatusIndicator";
 import { IOSConnectionBanner } from "./components/IOSConnectionBanner";
 
@@ -21,6 +23,8 @@ function Router() {
       <Route path={"/rewards"} component={Rewards} />
       <Route path={"/analytics"} component={Analytics} />
       <Route path={"/lora-devices"} component={LoRaDevices} />
+      <Route path={"/hybrid-network"} component={HybridNetwork} />
+      <Route path={"/telecommunications"} component={Telecommunications} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

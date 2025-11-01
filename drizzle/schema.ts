@@ -168,3 +168,89 @@ export type Gateway = typeof gateways.$inferSelect;
 export type InsertGateway = typeof gateways.$inferInsert;
 export type Repeater = typeof repeaters.$inferSelect;
 export type InsertRepeater = typeof repeaters.$inferInsert;
+
+// Fiber Optic & Cable Connections (Hybrid Network)
+// Author: Jonathan Sherman
+export const fiberConnections = mysqlTable("fiberConnections", {
+  id: int("id").autoincrement().primaryKey(),
+  connectionId: varchar("connectionId", { length: 128 }).notNull().unique(),
+  name: varchar("name", { length: 255 }),
+  type: mysqlEnum("type", ["single-mode", "multi-mode", "dark-fiber"]).default("single-mode").notNull(),
+  status: mysqlEnum("status", ["active", "inactive", "maintenance"]).default("inactive").notNull(),
+  sourceNodeId: varchar("sourceNodeId", { length: 128 }),
+  targetNodeId: varchar("targetNodeId", { length: 128 }),
+  bandwidth: varchar("bandwidth", { length: 50 }),
+  latency: varchar("latency", { length: 50 }),
+  distance: varchar("distance", { length: 50 }),
+  installDate: timestamp("installDate"),
+  lastMaintenance: timestamp("lastMaintenance"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const cableConnections = mysqlTable("cableConnections", {
+  id: int("id").autoincrement().primaryKey(),
+  connectionId: varchar("connectionId", { length: 128 }).notNull().unique(),
+  name: varchar("name", { length: 255 }),
+  type: mysqlEnum("type", ["cat5e", "cat6", "cat6a", "coax"]).default("cat6").notNull(),
+  status: mysqlEnum("status", ["active", "inactive", "maintenance"]).default("inactive").notNull(),
+  sourceNodeId: varchar("sourceNodeId", { length: 128 }),
+  targetNodeId: varchar("targetNodeId", { length: 128 }),
+  bandwidth: varchar("bandwidth", { length: 50 }),
+  distance: varchar("distance", { length: 50 }),
+  installDate: timestamp("installDate"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// Voice, Text & Data Provisioning
+// Author: Jonathan Sherman
+export const voiceProvisioning = mysqlTable("voiceProvisioning", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: varchar("userId", { length: 64 }).notNull(),
+  phoneNumber: varchar("phoneNumber", { length: 20 }).notNull().unique(),
+  status: mysqlEnum("status", ["active", "suspended", "terminated"]).default("active").notNull(),
+  plan: varchar("plan", { length: 64 }),
+  minutesUsed: int("minutesUsed").default(0).notNull(),
+  minutesAllowed: int("minutesAllowed").default(0).notNull(),
+  voipEnabled: int("voipEnabled").default(1).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const textProvisioning = mysqlTable("textProvisioning", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: varchar("userId", { length: 64 }).notNull(),
+  phoneNumber: varchar("phoneNumber", { length: 20 }).notNull(),
+  status: mysqlEnum("status", ["active", "suspended", "terminated"]).default("active").notNull(),
+  messagesUsed: int("messagesUsed").default(0).notNull(),
+  messagesAllowed: int("messagesAllowed").default(0).notNull(),
+  smsEnabled: int("smsEnabled").default(1).notNull(),
+  mmsEnabled: int("mmsEnabled").default(1).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const dataProvisioning = mysqlTable("dataProvisioning", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: varchar("userId", { length: 64 }).notNull(),
+  status: mysqlEnum("status", ["active", "suspended", "terminated"]).default("active").notNull(),
+  plan: varchar("plan", { length: 64 }),
+  dataUsed: varchar("dataUsed", { length: 50 }).default("0"),
+  dataAllowed: varchar("dataAllowed", { length: 50 }).default("0"),
+  speed: varchar("speed", { length: 50 }),
+  qosLevel: mysqlEnum("qosLevel", ["high", "medium", "low"]).default("medium").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type FiberConnection = typeof fiberConnections.$inferSelect;
+export type InsertFiberConnection = typeof fiberConnections.$inferInsert;
+export type CableConnection = typeof cableConnections.$inferSelect;
+export type InsertCableConnection = typeof cableConnections.$inferInsert;
+export type VoiceProvisioning = typeof voiceProvisioning.$inferSelect;
+export type InsertVoiceProvisioning = typeof voiceProvisioning.$inferInsert;
+export type TextProvisioning = typeof textProvisioning.$inferSelect;
+export type InsertTextProvisioning = typeof textProvisioning.$inferInsert;
+export type DataProvisioning = typeof dataProvisioning.$inferSelect;
+export type InsertDataProvisioning = typeof dataProvisioning.$inferInsert;
