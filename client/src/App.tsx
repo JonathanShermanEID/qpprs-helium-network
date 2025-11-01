@@ -6,6 +6,8 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import NetworkIntelligence from "./pages/NetworkIntelligence";
+import Rewards from "./pages/Rewards";
+import Analytics from "./pages/Analytics";
 import { NetworkStatusIndicator } from "./components/NetworkStatusIndicator";
 import { IOSConnectionBanner } from "./components/IOSConnectionBanner";
 
@@ -15,6 +17,8 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/network"} component={NetworkIntelligence} />
+      <Route path={"/rewards"} component={Rewards} />
+      <Route path={"/analytics"} component={Analytics} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
