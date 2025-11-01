@@ -715,6 +715,36 @@ export const appRouter = router({
       }),
   }),
 
+  // Autonomous Mesh Network Gateway
+  // Provides connectivity when Wi-Fi and cellular networks are unavailable
+  // Author: Jonathan Sherman
+  meshGateway: router({
+    getStatus: publicProcedure.query(async () => {
+      const { getMeshNetworkGateway } = await import('./meshNetworkGateway');
+      const gateway = getMeshNetworkGateway();
+      return gateway.getStatus();
+    }),
+    getConfig: publicProcedure.query(async () => {
+      const { getMeshNetworkGateway } = await import('./meshNetworkGateway');
+      const gateway = getMeshNetworkGateway();
+      return gateway.getConfig();
+    }),
+    getMeshNodes: publicProcedure.query(async () => {
+      const { getMeshNetworkGateway } = await import('./meshNetworkGateway');
+      const gateway = getMeshNetworkGateway();
+      return gateway.getMeshNodes();
+    }),
+    forceMeshActivation: protectedProcedure.mutation(async ({ ctx }) => {
+      if (ctx.user.openId !== process.env.OWNER_OPEN_ID) {
+        throw new Error('Owner-only operation');
+      }
+      const { getMeshNetworkGateway } = await import('./meshNetworkGateway');
+      const gateway = getMeshNetworkGateway();
+      await gateway.forceMeshActivation();
+      return { success: true };
+    }),
+  }),
+
   // 3D Visualization Router
   // Author: Jonathan Sherman
   visualization: router({
