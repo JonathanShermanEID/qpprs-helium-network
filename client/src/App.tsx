@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import NetworkIntelligence from "./pages/NetworkIntelligence";
 import { NetworkStatusIndicator } from "./components/NetworkStatusIndicator";
+import { IOSConnectionBanner } from "./components/IOSConnectionBanner";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -35,6 +36,7 @@ function App() {
       >
         <TooltipProvider>
           <Toaster />
+          <IOSConnectionBanner />
           <NetworkStatusIndicator />
           <Router />
         </TooltipProvider>

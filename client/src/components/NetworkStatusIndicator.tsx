@@ -5,19 +5,25 @@
  */
 
 import { useNetworkDetection } from '@/hooks/useNetworkDetection';
-import { Wifi, WifiOff, Radio, Signal, SignalHigh, SignalLow, SignalMedium } from 'lucide-react';
+import { useIOSNetwork } from '@/hooks/useIOSNetwork';
+import { Wifi, WifiOff, Radio, Signal, SignalHigh, SignalLow, SignalMedium, Smartphone } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 export function NetworkStatusIndicator() {
   const { status, meshInfo, isOnline, isMeshNetwork, meshAvailable, signalStrength } = useNetworkDetection();
+  const iosNetwork = useIOSNetwork();
   const [previousMeshState, setPreviousMeshState] = useState<boolean>(false);
 
   useEffect(() => {
     // Notify user when mesh network becomes available
     if (meshAvailable && !previousMeshState) {
+      const message = iosNetwork.isIOS 
+        ? `iPhone XR connected to mesh network | ${meshInfo?.connectedHotspots || 0} hotspots`
+        : `Signal strength: ${signalStrength}% | ${meshInfo?.connectedHotspots || 0} hotspots nearby`;
+      
       toast.success('Helium Mesh Network Connected', {
-        description: `Signal strength: ${signalStrength}% | ${meshInfo?.connectedHotspots || 0} hotspots nearby`,
+        description: message,
         duration: 5000,
       });
     }
@@ -25,13 +31,13 @@ export function NetworkStatusIndicator() {
     // Notify when mesh network disconnects
     if (!meshAvailable && previousMeshState) {
       toast.info('Mesh Network Disconnected', {
-        description: 'Switched to traditional network',
+        description: iosNetwork.isIOS ? 'Searching for alternative connection...' : 'Switched to traditional network',
         duration: 3000,
       });
     }
 
     setPreviousMeshState(meshAvailable);
-  }, [meshAvailable, signalStrength, meshInfo?.connectedHotspots, previousMeshState]);
+  }, [meshAvailable, signalStrength, meshInfo?.connectedHotspots, previousMeshState, iosNetwork.isIOS]);
 
   const getSignalIcon = () => {
     if (!isOnline) return <WifiOff className="w-4 h-4" />;
@@ -50,6 +56,9 @@ export function NetworkStatusIndicator() {
   };
 
   const getStatusText = () => {
+    if (iosNetwork.isIOS && iosNetwork.hasMeshNetwork) {
+      return 'Mesh Network (iOS)';
+    }
     if (!isOnline) return 'Offline';
     if (isMeshNetwork) return 'Mesh Network';
     return status?.connectionType === 'wifi' ? 'Wi-Fi' : 'Cellular';
@@ -100,8 +109,13 @@ export function NetworkStatusIndicator() {
             </div>
           )}
 
+          {/* iOS indicator */}
+          {iosNetwork.isIOS && iosNetwork.isStandalone && (
+            <Smartphone className="w-3 h-3 text-cyan-400" />
+          )}
+
           {/* Pulse animation for active mesh connection */}
-          {isMeshNetwork && (
+          {(isMeshNetwork || iosNetwork.hasMeshNetwork) && (
             <div className="relative">
               <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
               <div className="absolute inset-0 w-2 h-2 bg-cyan-400 rounded-full animate-ping opacity-75" />
