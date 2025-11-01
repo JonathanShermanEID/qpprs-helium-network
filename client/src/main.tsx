@@ -7,6 +7,7 @@ import superjson from "superjson";
 import App from "./App";
 import { getLoginUrl } from "./const";
 import "./index.css";
+import { registerServiceWorker } from "./utils/registerServiceWorker";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,16 @@ const trpcClient = trpc.createClient({
     }),
   ],
 });
+
+// Register service worker for offline mesh network functionality
+if (import.meta.env.PROD) {
+  registerServiceWorker().then((registration) => {
+    if (registration) {
+      console.log('[Helium Mesh] Service worker registered - offline mode enabled');
+      console.log('[Helium Mesh] Author: Jonathan Sherman');
+    }
+  });
+}
 
 createRoot(document.getElementById("root")!).render(
   <trpc.Provider client={trpcClient} queryClient={queryClient}>

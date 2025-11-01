@@ -210,3 +210,19 @@
 - [x] Add automatic reconnection when mesh network available
 - [x] Build network quality indicators (signal strength, latency)
 - [x] Implement seamless handoff between traditional and mesh networks
+
+## Real Helium Hotspot Discovery & Population
+- [x] Query Helium Network API for real hotspot data
+- [x] Populate database with actual hotspots
+- [x] Add geolocation-based hotspot discovery
+- [x] Implement automatic hotspot sync on startup
+- [x] Add hotspot status monitoring (online/offline)
+
+## Offline Mesh Network Connectivity
+- [x] Implement service worker for offline functionality
+- [x] Add PWA manifest for installable app
+- [x] Create offline data caching strategy
+- [x] Build LoRaWAN connection handler
+- [x] Add offline mode indicator
+- [x] Implement background sync for mesh connectivity
+- [x] Create offline-first data persistence
