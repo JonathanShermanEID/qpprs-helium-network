@@ -25,6 +25,13 @@ export interface LoRaDevice {
   enabled: boolean;
   lastSeen: Date;
   batteryLevel?: number; // 0-100%
+  gps?: {
+    latitude: number;
+    longitude: number;
+    altitude?: number;
+    accuracy?: number;
+  };
+  location?: string;
 }
 
 export interface LoRaPowerState {
@@ -69,6 +76,13 @@ export class LoRaDetectionService {
       enabled: true,
       lastSeen: new Date(),
       batteryLevel: 100,
+      gps: {
+        latitude: 37.7749,
+        longitude: -122.4194,
+        altitude: 50,
+        accuracy: 10,
+      },
+      location: 'San Francisco, CA',
     };
 
     this.devices.set(defaultDevice.id, defaultDevice);
