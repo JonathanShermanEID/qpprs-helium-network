@@ -260,6 +260,74 @@ export const appRouter = router({
       }),
   }),
   
+  // Network Spreading & Viral Growth
+  // Author: Jonathan Sherman
+  network: router({
+    generateReferralCode: protectedProcedure
+      .query(async ({ ctx }) => {
+        const { networkSpreadingEngine } = await import('./networkSpreadingEngine');
+        return {
+          referralCode: networkSpreadingEngine.generateReferralCode(ctx.user.openId),
+          invitationLink: networkSpreadingEngine.generateInvitationLink(
+            networkSpreadingEngine.generateReferralCode(ctx.user.openId)
+          ),
+        };
+      }),
+    trackReferral: publicProcedure
+      .input(z.object({
+        referralCode: z.string(),
+        userId: z.string(),
+        hotspotAddresses: z.array(z.string()),
+      }))
+      .mutation(async ({ input }) => {
+        const { networkSpreadingEngine } = await import('./networkSpreadingEngine');
+        return networkSpreadingEngine.trackReferral(
+          input.referralCode,
+          input.userId,
+          input.hotspotAddresses
+        );
+      }),
+    getSocialContent: protectedProcedure
+      .input(z.object({ referralCode: z.string() }))
+      .query(async ({ input }) => {
+        const { networkSpreadingEngine } = await import('./networkSpreadingEngine');
+        return networkSpreadingEngine.generateSocialContent(input.referralCode);
+      }),
+    createCampaign: protectedProcedure
+      .input(z.object({
+        name: z.string(),
+        targetAudience: z.enum(['hotspot_owners', 'network_operators', 'all']),
+        incentive: z.object({
+          type: z.enum(['percentage_bonus', 'fixed_reward', 'premium_unlock']),
+          value: z.number(),
+        }),
+        active: z.boolean(),
+        startDate: z.date(),
+        endDate: z.date().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const { ENV } = await import('./_core/env');
+        if (ctx.user.openId !== ENV.ownerOpenId) throw new Error('Owner only');
+        const { networkSpreadingEngine } = await import('./networkSpreadingEngine');
+        return networkSpreadingEngine.createViralCampaign(input);
+      }),
+    automatedOutreach: protectedProcedure
+      .input(z.object({ targetHotspots: z.array(z.string()) }))
+      .mutation(async ({ input, ctx }) => {
+        const { ENV } = await import('./_core/env');
+        if (ctx.user.openId !== ENV.ownerOpenId) throw new Error('Owner only');
+        const { networkSpreadingEngine } = await import('./networkSpreadingEngine');
+        return networkSpreadingEngine.automatedOutreach(input.targetHotspots);
+      }),
+    getAnalytics: protectedProcedure
+      .query(async ({ ctx }) => {
+        const { ENV } = await import('./_core/env');
+        if (ctx.user.openId !== ENV.ownerOpenId) throw new Error('Owner only');
+        const { networkSpreadingEngine } = await import('./networkSpreadingEngine');
+        return networkSpreadingEngine.getSpreadingAnalytics();
+      }),
+  }),
+
   // Mass-scale automation System
   // 1024 AI Thinking System
   // Author: Jonathan Sherman
