@@ -310,3 +310,13 @@
 - [x] Fix catch-all route handling
 - [x] Test all navigation paths
 - [x] Verify route matching works correctly
+
+## HNT Rewards to Manus Credits Conversion
+- [x] Create rewards tracking backend for Helium Network
+- [x] Implement HNT balance fetching from Helium API
+- [x] Create conversion rate system (HNT → Manus credits)
+- [x] Build clickable reward box UI component
+- [x] Add conversion transaction logging
+- [x] Implement real-time reward tallying
+- [x] Create conversion confirmation system
+- [x] Add conversion history tracking
