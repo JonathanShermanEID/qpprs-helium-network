@@ -18,7 +18,8 @@ import { campaignsRouter } from "./routers/campaigns";
 import { intelligentNetworkActivationRouter } from "./routers/intelligentNetworkActivation";
 import { coverageOpportunitiesRouter } from "./routers/coverageOpportunities";
 import { cryptoPaymentsRouter } from "./routers/cryptoPayments";
-import { verizonRouter } from "./routers/verizon";
+import { verizonRouter } from './routers/verizon';
+import { phoneNumberRouter } from './routers/phoneNumber';
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -38,6 +39,7 @@ export const appRouter = router({
   coverageOpportunities: coverageOpportunitiesRouter,
   cryptoPayments: cryptoPaymentsRouter,
   verizon: verizonRouter,
+  phoneNumber: phoneNumberRouter,
 
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
