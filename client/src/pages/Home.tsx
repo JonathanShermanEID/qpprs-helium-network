@@ -11,7 +11,7 @@ import '@/utils/errorMonitoring'; // Initialize 100 frontend AI error fixers
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
-import { Activity, Brain, Network, TrendingUp, Zap, Radio, Cpu, Sparkles, Cable, Phone, Settings } from "lucide-react";
+import { Activity, Brain, Network, TrendingUp, Zap, Radio, Cpu, Sparkles, Cable, Phone, Settings, MapPin } from "lucide-react";
 import { MicrosoftGlyph } from "@/components/MicrosoftGlyph";
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
@@ -353,6 +353,21 @@ export default function Home() {
               <CardTitle>Device Management</CardTitle>
               <CardDescription>
                 Activate and program hotspots, gateways, repeaters & phones
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card 
+            className="glass-card border-accent/30 hover:border-accent/60 transition-all group cursor-pointer"
+            onClick={() => setLocation('/coverage-opportunities')}
+          >
+            <CardHeader>
+              <div className="mb-4">
+                <MicrosoftGlyph icon={MapPin} size="md" variant="success" />
+              </div>
+              <CardTitle>Coverage Opportunities</CardTitle>
+              <CardDescription>
+                Network expansion areas with deployment recommendations
               </CardDescription>
             </CardHeader>
           </Card>

@@ -434,3 +434,28 @@ export const digitalCertificates = mysqlTable("digitalCertificates", {
 
 export type DigitalCertificate = typeof digitalCertificates.$inferSelect;
 export type InsertDigitalCertificate = typeof digitalCertificates.$inferInsert;
+
+/**
+ * Coverage Opportunities - New areas for network expansion
+ */
+export const coverageOpportunities = mysqlTable("coverage_opportunities", {
+  id: int("id").autoincrement().primaryKey(),
+  city: varchar("city", { length: 100 }).notNull(),
+  state: varchar("state", { length: 50 }).notNull(),
+  country: varchar("country", { length: 50 }).notNull().default("USA"),
+  latitude: varchar("latitude", { length: 20 }).notNull(),
+  longitude: varchar("longitude", { length: 20 }).notNull(),
+  populationDensity: int("population_density"), // people per sq km
+  estimatedHotspots: int("estimated_hotspots"), // recommended hotspot count
+  coverageGap: varchar("coverage_gap", { length: 20 }), // percentage
+  priority: mysqlEnum("priority", ["low", "medium", "high", "critical"]).default("medium"),
+  status: mysqlEnum("status", ["detected", "analyzing", "planned", "deploying", "active"]).default("detected"),
+  deploymentRecommendations: text("deployment_recommendations"),
+  estimatedRevenue: int("estimated_revenue"), // monthly USD
+  competitorPresence: varchar("competitor_presence", { length: 20 }), // percentage
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type CoverageOpportunity = typeof coverageOpportunities.$inferSelect;
+export type InsertCoverageOpportunity = typeof coverageOpportunities.$inferInsert;
