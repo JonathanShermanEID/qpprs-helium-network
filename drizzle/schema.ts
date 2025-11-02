@@ -333,3 +333,104 @@ export type DeviceProvisioningLog = typeof deviceProvisioningLogs.$inferSelect;
 export type InsertDeviceProvisioningLog = typeof deviceProvisioningLogs.$inferInsert;
 export type DeviceOTAUpdate = typeof deviceOTAUpdates.$inferSelect;
 export type InsertDeviceOTAUpdate = typeof deviceOTAUpdates.$inferInsert;
+
+/**
+ * Conversation Monitoring & Recovery System
+ * Author: Jonathan Sherman - Monaco Edition
+ */
+
+// Conversation backups (snapshots taken on screen lock)
+export const conversationBackups = mysqlTable("conversationBackups", {
+  id: int("id").autoincrement().primaryKey(),
+  conversationId: varchar("conversationId", { length: 255 }).notNull(),
+  conversationTitle: text("conversationTitle"),
+  authorOpenId: varchar("authorOpenId", { length: 64 }).notNull(),
+  authorName: text("authorName"),
+  contentSnapshot: text("contentSnapshot").notNull(), // Full conversation JSON
+  messageCount: int("messageCount").default(0),
+  backupTrigger: mysqlEnum("backupTrigger", ["screen_lock", "manual", "scheduled", "authorship_change"]).notNull(),
+  backupLocation: text("backupLocation"), // S3 URL or local path
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// Authorship change detection log
+export const authorshipChanges = mysqlTable("authorshipChanges", {
+  id: int("id").autoincrement().primaryKey(),
+  conversationId: varchar("conversationId", { length: 255 }).notNull(),
+  originalAuthorOpenId: varchar("originalAuthorOpenId", { length: 64 }).notNull(),
+  originalAuthorName: text("originalAuthorName"),
+  newAuthorOpenId: varchar("newAuthorOpenId", { length: 64 }).notNull(),
+  newAuthorName: text("newAuthorName"),
+  changeDetectedAt: timestamp("changeDetectedAt").defaultNow().notNull(),
+  contentBeforeChange: text("contentBeforeChange"), // Backup before change
+  contentAfterChange: text("contentAfterChange"), // Content after change
+  restorationStatus: mysqlEnum("restorationStatus", ["pending", "restored", "failed", "ignored"]).default("pending"),
+  restoredAt: timestamp("restoredAt"),
+});
+
+// Conversation scan history
+export const conversationScans = mysqlTable("conversationScans", {
+  id: int("id").autoincrement().primaryKey(),
+  scanType: mysqlEnum("scanType", ["full_scan", "incremental", "authorship_check"]).notNull(),
+  conversationsScanned: int("conversationsScanned").default(0),
+  changesDetected: int("changesDetected").default(0),
+  backupsCreated: int("backupsCreated").default(0),
+  authorshipChangesFound: int("authorshipChangesFound").default(0),
+  scanDurationMs: int("scanDurationMs"),
+  scanStatus: mysqlEnum("scanStatus", ["running", "completed", "failed"]).default("running"),
+  errorMessage: text("errorMessage"),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  completedAt: timestamp("completedAt"),
+});
+
+// Screen lock events (iOS)
+export const screenLockEvents = mysqlTable("screenLockEvents", {
+  id: int("id").autoincrement().primaryKey(),
+  deviceId: varchar("deviceId", { length: 255 }).notNull(),
+  lockType: mysqlEnum("lockType", ["screen_lock", "screen_unlock", "page_hidden", "page_visible"]).notNull(),
+  backupTriggered: int("backupTriggered").default(0), // boolean as int
+  conversationsBackedUp: int("conversationsBackedUp").default(0),
+  eventTimestamp: timestamp("eventTimestamp").defaultNow().notNull(),
+});
+
+export type ConversationBackup = typeof conversationBackups.$inferSelect;
+export type InsertConversationBackup = typeof conversationBackups.$inferInsert;
+export type AuthorshipChange = typeof authorshipChanges.$inferSelect;
+export type InsertAuthorshipChange = typeof authorshipChanges.$inferInsert;
+export type ConversationScan = typeof conversationScans.$inferSelect;
+export type InsertConversationScan = typeof conversationScans.$inferInsert;
+export type ScreenLockEvent = typeof screenLockEvents.$inferSelect;
+export type InsertScreenLockEvent = typeof screenLockEvents.$inferInsert;
+
+/**
+ * 3D Digital Certification System
+ * Author: Jonathan Sherman - Monaco Edition
+ */
+
+// 3D Digital Certificates
+export const digitalCertificates = mysqlTable("digitalCertificates", {
+  id: int("id").autoincrement().primaryKey(),
+  certificateId: varchar("certificateId", { length: 255 }).notNull().unique(),
+  certificateType: mysqlEnum("certificateType", [
+    "conversation_backup",
+    "authorship_verification", 
+    "device_authentication",
+    "network_certification",
+    "master_artifact"
+  ]).notNull(),
+  holderOpenId: varchar("holderOpenId", { length: 64 }).notNull(),
+  holderName: text("holderName"),
+  subjectId: varchar("subjectId", { length: 255 }).notNull(), // conversation ID, device ID, etc.
+  subjectTitle: text("subjectTitle"),
+  verificationHash: varchar("verificationHash", { length: 64 }).notNull(), // SHA-256 hash
+  certificate3DModel: text("certificate3DModel"), // GLB/GLTF model URL
+  certificateMetadata: text("certificateMetadata"), // JSON metadata
+  issuedAt: timestamp("issuedAt").defaultNow().notNull(),
+  expiresAt: timestamp("expiresAt"),
+  revokedAt: timestamp("revokedAt"),
+  revocationReason: text("revocationReason"),
+  validationStatus: mysqlEnum("validationStatus", ["valid", "expired", "revoked", "pending"]).default("valid"),
+});
+
+export type DigitalCertificate = typeof digitalCertificates.$inferSelect;
+export type InsertDigitalCertificate = typeof digitalCertificates.$inferInsert;

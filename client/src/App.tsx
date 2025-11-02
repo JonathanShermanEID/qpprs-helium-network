@@ -6,6 +6,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import DeviceManagement from "./pages/DeviceManagement";
+import ConversationMonitor from "./pages/ConversationMonitor";
 import NetworkIntelligence from "./pages/NetworkIntelligence";
 import Rewards from "./pages/Rewards";
 import Analytics from "./pages/Analytics";
@@ -20,7 +21,8 @@ function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
-      <Route path={"/devices"} component={DeviceManagement} />
+      <Route path={"/device-management"} component={DeviceManagement} />
+      <Route path={"/conversation-monitor"} component={ConversationMonitor} />
       <Route path={"/network-intelligence"} component={NetworkIntelligence} />
       <Route path={"/rewards"} component={Rewards} />
       <Route path={"/analytics"} component={Analytics} />
