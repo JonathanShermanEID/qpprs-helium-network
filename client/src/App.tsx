@@ -5,6 +5,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import DeviceManagement from "./pages/DeviceManagement";
 import NetworkIntelligence from "./pages/NetworkIntelligence";
 import Rewards from "./pages/Rewards";
 import Analytics from "./pages/Analytics";
@@ -19,7 +20,8 @@ function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
-      <Route path={"/network"} component={NetworkIntelligence} />
+      <Route path={"/devices"} component={DeviceManagement} />
+      <Route path={"/network-intelligence"} component={NetworkIntelligence} />
       <Route path={"/rewards"} component={Rewards} />
       <Route path={"/analytics"} component={Analytics} />
       <Route path={"/lora-devices"} component={LoRaDevices} />

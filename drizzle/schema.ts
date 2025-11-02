@@ -254,3 +254,82 @@ export type TextProvisioning = typeof textProvisioning.$inferSelect;
 export type InsertTextProvisioning = typeof textProvisioning.$inferInsert;
 export type DataProvisioning = typeof dataProvisioning.$inferSelect;
 export type InsertDataProvisioning = typeof dataProvisioning.$inferInsert;
+
+// Device Activation & Programming System
+// Author: Jonathan Sherman - Monaco Edition
+export const deviceActivations = mysqlTable("deviceActivations", {
+  id: int("id").autoincrement().primaryKey(),
+  deviceId: varchar("deviceId", { length: 128 }).notNull().unique(),
+  deviceType: mysqlEnum("deviceType", ["hotspot", "gateway", "repeater", "phone"]).notNull(),
+  activationCode: varchar("activationCode", { length: 64 }).notNull().unique(),
+  status: mysqlEnum("status", ["pending", "activated", "deactivated", "suspended"]).default("pending").notNull(),
+  ownerId: varchar("ownerId", { length: 64 }).notNull(),
+  activatedAt: timestamp("activatedAt"),
+  expiresAt: timestamp("expiresAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const deviceConfigurations = mysqlTable("deviceConfigurations", {
+  id: int("id").autoincrement().primaryKey(),
+  deviceId: varchar("deviceId", { length: 128 }).notNull().unique(),
+  firmwareVersion: varchar("firmwareVersion", { length: 32 }),
+  configData: text("configData"), // JSON configuration
+  networkSettings: text("networkSettings"), // JSON network config
+  securitySettings: text("securitySettings"), // JSON security config
+  lastProgrammedAt: timestamp("lastProgrammedAt"),
+  lastProgrammedBy: varchar("lastProgrammedBy", { length: 64 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const deviceFirmware = mysqlTable("deviceFirmware", {
+  id: int("id").autoincrement().primaryKey(),
+  firmwareId: varchar("firmwareId", { length: 128 }).notNull().unique(),
+  version: varchar("version", { length: 32 }).notNull(),
+  deviceType: mysqlEnum("deviceType", ["hotspot", "gateway", "repeater", "phone"]).notNull(),
+  releaseDate: timestamp("releaseDate").notNull(),
+  downloadUrl: varchar("downloadUrl", { length: 512 }),
+  checksum: varchar("checksum", { length: 128 }),
+  fileSize: varchar("fileSize", { length: 50 }),
+  releaseNotes: text("releaseNotes"),
+  isStable: int("isStable").default(1).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const deviceProvisioningLogs = mysqlTable("deviceProvisioningLogs", {
+  id: int("id").autoincrement().primaryKey(),
+  deviceId: varchar("deviceId", { length: 128 }).notNull(),
+  action: varchar("action", { length: 64 }).notNull(),
+  status: mysqlEnum("status", ["success", "failed", "pending"]).default("pending").notNull(),
+  performedBy: varchar("performedBy", { length: 64 }),
+  details: text("details"), // JSON details
+  errorMessage: text("errorMessage"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export const deviceOTAUpdates = mysqlTable("deviceOTAUpdates", {
+  id: int("id").autoincrement().primaryKey(),
+  updateId: varchar("updateId", { length: 128 }).notNull().unique(),
+  deviceId: varchar("deviceId", { length: 128 }).notNull(),
+  firmwareId: varchar("firmwareId", { length: 128 }).notNull(),
+  status: mysqlEnum("status", ["queued", "downloading", "installing", "completed", "failed"]).default("queued").notNull(),
+  progress: int("progress").default(0).notNull(), // 0-100
+  startedAt: timestamp("startedAt"),
+  completedAt: timestamp("completedAt"),
+  errorMessage: text("errorMessage"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type DeviceActivation = typeof deviceActivations.$inferSelect;
+export type InsertDeviceActivation = typeof deviceActivations.$inferInsert;
+export type DeviceConfiguration = typeof deviceConfigurations.$inferSelect;
+export type InsertDeviceConfiguration = typeof deviceConfigurations.$inferInsert;
+export type DeviceFirmware = typeof deviceFirmware.$inferSelect;
+export type InsertDeviceFirmware = typeof deviceFirmware.$inferInsert;
+export type DeviceProvisioningLog = typeof deviceProvisioningLogs.$inferSelect;
+export type InsertDeviceProvisioningLog = typeof deviceProvisioningLogs.$inferInsert;
+export type DeviceOTAUpdate = typeof deviceOTAUpdates.$inferSelect;
+export type InsertDeviceOTAUpdate = typeof deviceOTAUpdates.$inferInsert;

@@ -43,6 +43,13 @@
       "when": 1762030767140,
       "tag": "0005_early_karnak",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1762111391501,
+      "tag": "0006_rare_major_mapleleaf",
+      "breakpoints": true
     }
   ]
 }
