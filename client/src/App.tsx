@@ -15,6 +15,7 @@ import HybridNetwork from "./pages/HybridNetwork";
 import Telecommunications from "./pages/Telecommunications";
 import CoverageOpportunities from "./pages/CoverageOpportunities";
 import CryptoPayments from "./pages/CryptoPayments";
+import VerizonNetworkManager from "./pages/VerizonNetworkManager";
 import { NetworkStatusIndicator } from "./components/NetworkStatusIndicator";
 import { IOSConnectionBanner } from "./components/IOSConnectionBanner";
 import { CloakingWrapper } from "./components/CloakingWrapper";
@@ -34,6 +35,7 @@ function Router() {
       <Route path={"/telecommunications"} component={Telecommunications} />
       <Route path={"/coverage-opportunities"} component={CoverageOpportunities} />
       <Route path={"/crypto-payments"} component={CryptoPayments} />
+      <Route path={"/verizon-network"} component={VerizonNetworkManager} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

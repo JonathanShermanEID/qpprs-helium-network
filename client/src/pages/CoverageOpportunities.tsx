@@ -25,7 +25,7 @@ export default function CoverageOpportunities() {
     );
   }
 
-  const getPriorityColor = (priority: string) => {
+  const getPriorityColor = (priority: string | null) => {
     switch (priority) {
       case "critical": return "destructive";
       case "high": return "default";
@@ -35,7 +35,7 @@ export default function CoverageOpportunities() {
     }
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: string | null) => {
     switch (status) {
       case "active": return "default";
       case "deploying": return "default";

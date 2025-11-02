@@ -232,7 +232,7 @@ export const intelligentNetworkActivationRouter = router({
       z.object({
         networkId: z.string(),
         event: z.enum(["status_update", "metrics_update", "connection_request"]),
-        data: z.record(z.any()),
+        data: z.record(z.string(), z.any()),
       })
     )
     .mutation(async ({ input }) => {

@@ -207,7 +207,7 @@ export default function LoRaDevices() {
                               variant="outline"
                               size="sm"
                               className="w-full border-accent/50 hover:bg-accent/10"
-                              onClick={() => window.open(
+                              onClick={() => device.gps && window.open(
                                 `https://www.google.com/maps?q=${device.gps.latitude},${device.gps.longitude}`,
                                 '_blank'
                               )}

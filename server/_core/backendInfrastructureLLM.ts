@@ -285,7 +285,8 @@ Generate TypeScript/JavaScript code to fix this issue. Provide ONLY the code, no
         ],
       });
 
-      const code = response.choices[0]?.message?.content || "";
+      const content = response.choices[0]?.message?.content;
+      const code = typeof content === 'string' ? content : "";
       return code;
     } catch (error) {
       console.error("[Backend Infrastructure LLM] Code generation failed:", error);

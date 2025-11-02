@@ -145,7 +145,7 @@ export class FrequencyBrainAI {
     let closest: CognitiveRFPattern | null = null;
     let minDiff = Infinity;
 
-    for (const [freq, pattern] of this.learningData.entries()) {
+    for (const [freq, pattern] of Array.from(this.learningData.entries())) {
       const diff = Math.abs(freq - frequencyMHz);
       if (diff < minDiff && diff < 100) {
         // Within 100 MHz
@@ -182,15 +182,16 @@ Provide a concise semantic understanding of what this signal represents in the c
       const semanticMeaning = response.choices[0]?.message?.content || "Unknown signal type";
 
       // Store learned pattern
+      const meaningStr = typeof semanticMeaning === 'string' ? semanticMeaning : "Unknown signal type";
       this.learningData.set(frequencyMHz, {
         frequencyMHz,
         pattern: "Learned pattern",
         intent: "Determined through AI analysis",
-        semanticMeaning,
+        semanticMeaning: meaningStr,
         confidence: 70,
       });
 
-      return semanticMeaning;
+      return meaningStr;
     } catch (error) {
       console.error("[Frequency Brain AI] Learning error:", error);
       return "Unable to determine semantic meaning";
@@ -219,7 +220,8 @@ Explain what this signal is, what it's doing, and why it matters in simple terms
         ],
       });
 
-      return response.choices[0]?.message?.content || "Unable to translate signal";
+      const content9 = response.choices[0]?.message?.content;
+      return typeof content9 === 'string' ? content9 : "Unable to translate signal";
     } catch (error) {
       console.error("[Frequency Brain AI] Translation error:", error);
       return "Translation unavailable";
@@ -248,7 +250,8 @@ Include: modulation scheme, bandwidth utilization, signal quality, potential int
         ],
       });
 
-      return response.choices[0]?.message?.content || "Analysis unavailable";
+      const content10 = response.choices[0]?.message?.content;
+      return typeof content10 === 'string' ? content10 : "Analysis unavailable";
     } catch (error) {
       console.error("[Frequency Brain AI] Analysis error:", error);
       return "Technical analysis unavailable";
@@ -277,12 +280,13 @@ Format as a JSON array of recommendation strings.`;
         ],
       });
 
-      const content = response.choices[0]?.message?.content || "[]";
+      const content11 = response.choices[0]?.message?.content;
+      const contentStr = typeof content11 === 'string' ? content11 : "[]";
       try {
-        return JSON.parse(content);
+        return JSON.parse(contentStr);
       } catch {
         // If not valid JSON, split by newlines
-        return content.split("\n").filter((line) => line.trim().length > 0);
+        return contentStr.split("\n").filter((line: string) => line.trim().length > 0);
       }
     } catch (error) {
       console.error("[Frequency Brain AI] Recommendations error:", error);
@@ -331,8 +335,9 @@ Provide a JSON object with RF configuration including: frequency, bandwidth, tra
         },
       });
 
-      const content = response.choices[0]?.message?.content || "{}";
-      return JSON.parse(content);
+      const content12 = response.choices[0]?.message?.content;
+      const contentStr2 = typeof content12 === 'string' ? content12 : "{}";
+      return JSON.parse(contentStr2);
     } catch (error) {
       console.error("[Frequency Brain AI] Human-to-RF translation error:", error);
       return {};
@@ -401,8 +406,9 @@ Respond in JSON format.`;
         },
       });
 
-      const content = response.choices[0]?.message?.content || "{}";
-      const cognitiveData = JSON.parse(content);
+      const content13 = response.choices[0]?.message?.content;
+      const contentStr3 = typeof content13 === 'string' ? content13 : "{}";
+      const cognitiveData = JSON.parse(contentStr3);
 
       const cognitiveMap: CognitiveNetworkMap = {
         networkId,
@@ -449,7 +455,11 @@ Provide a clear, concise answer.`;
         ],
       });
 
-      return response.choices[0]?.message?.content || "Unable to answer query";
+      const content = response.choices[0]?.message?.content;
+      if (typeof content === 'string') {
+        return content;
+      }
+      return "Unable to answer query";
     } catch (error) {
       console.error("[Frequency Brain AI] Query error:", error);
       return "Query processing failed";

@@ -34,7 +34,7 @@ export const certificates3DRouter = router({
       holderName: z.string(),
       subjectId: z.string(),
       subjectTitle: z.string(),
-      metadata: z.record(z.any()).optional(),
+      metadata: z.record(z.string(), z.any()).optional(),
     }))
     .mutation(async ({ input }) => {
       const db = await getDb();

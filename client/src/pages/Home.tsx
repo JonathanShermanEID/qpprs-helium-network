@@ -11,7 +11,7 @@ import '@/utils/errorMonitoring'; // Initialize 100 frontend AI error fixers
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
-import { Activity, Brain, Network, TrendingUp, Zap, Radio, Cpu, Sparkles, Cable, Phone, Settings, MapPin, Bitcoin } from "lucide-react";
+import { Activity, Brain, Network, TrendingUp, Zap, Radio, Cpu, Sparkles, Cable, Phone, Settings, MapPin, Bitcoin, Shield } from "lucide-react";
 import { MicrosoftGlyph } from "@/components/MicrosoftGlyph";
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
@@ -383,6 +383,21 @@ export default function Home() {
               <CardTitle>Crypto Payments</CardTitle>
               <CardDescription>
                 Bitcoin & Coinbase wallet (iPhone XR Exclusive)
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card 
+            className="glass-card border-blue-500/30 hover:border-blue-500/60 transition-all group cursor-pointer"
+            onClick={() => setLocation('/verizon-network')}
+          >
+            <CardHeader>
+              <div className="mb-4">
+                <MicrosoftGlyph icon={Shield} size="md" variant="primary" />
+              </div>
+              <CardTitle>Verizon Network Manager</CardTitle>
+              <CardDescription>
+                Remove network restrictions on iPhone XR (iPhone XR Exclusive)
               </CardDescription>
             </CardHeader>
           </Card>

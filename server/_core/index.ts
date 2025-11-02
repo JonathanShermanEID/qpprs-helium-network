@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import { sandboxManager } from "./sandboxManagerLLM";
 import { createServer } from "http";
 import net from "net";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
@@ -28,6 +29,8 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 }
 
 async function startServer() {
+  // Initialize Sandbox Manager to increase file limits
+  await sandboxManager.initialize();
   const app = express();
   const server = createServer(app);
   // Configure body parser with larger size limit for file uploads

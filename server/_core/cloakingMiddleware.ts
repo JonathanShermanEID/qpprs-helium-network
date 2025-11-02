@@ -33,10 +33,11 @@ export function isAuthenticIPhoneXR(req: Request): boolean {
   const isWebKit = /AppleWebKit/.test(userAgent);
   
   // Additional checks for authenticity
-  const hasProperHeaders = 
+  const hasProperHeaders = !!(  
     req.headers["accept"] &&
     req.headers["accept-language"] &&
-    req.headers["accept-encoding"];
+    req.headers["accept-encoding"]
+  );
   
   // Check for common emulator/spoof patterns
   const isNotEmulator = 

@@ -214,7 +214,7 @@ Provide your conscious decision as JSON with: action, sourceChannels, targetChan
       focused: 0,
     };
 
-    for (const channel of this.channels.values()) {
+    for (const channel of Array.from(this.channels.values())) {
       distribution[channel.emotionalState]++;
     }
 
