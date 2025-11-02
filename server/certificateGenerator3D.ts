@@ -107,7 +107,7 @@ export async function generate3DCertificate(data: CertificateData): Promise<Gene
       subjectTitle: data.subjectTitle,
       verificationHash,
       issuedAt: new Date(timestamp).toISOString(),
-      issuer: "Helium-Manus Integration Platform",
+      issuer: "Q++RS Integration Platform",
       issuerEdition: "Monaco Edition",
       issuerAuthor: "Jonathan Sherman",
       ...data.metadata,

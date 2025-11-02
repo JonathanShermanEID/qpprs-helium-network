@@ -48,7 +48,7 @@ export const appRouter = router({
     }),
   }),
 
-  // Helium-Manus Integration Routes
+  // Q++RS Integration Routes
   // Author: Jonathan Sherman
   hotspots: router({
     list: publicProcedure.query(async () => {

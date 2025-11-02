@@ -79,8 +79,9 @@
 }
 
 .dark {
-  /* Apple iOS 26 Monaco Edition - Liquid Glass UI */
-  /* Blues Monochromatic with Black - Author: Jonathan Sherman */
+  /* Q++RS Universal - iOS 26 Monaco Edition - Liquid Glass UI */
+  /* Premium Blues Monochromatic with Deep Black - Author: Jonathan Sherman */
+  /* Luxury • Performance • Elegance */
   --primary: var(--color-blue-500);
   --primary-foreground: var(--color-blue-50);
   --sidebar-primary: var(--color-blue-600);
@@ -121,14 +122,86 @@
   }
   body {
     @apply bg-background text-foreground;
-    /* Liquid glass effect background */
-    background-image: radial-gradient(circle at 20% 50%, oklch(0.18 0.04 240 / 0.3) 0%, transparent 50%),
-                      radial-gradient(circle at 80% 80%, oklch(0.2 0.05 230 / 0.2) 0%, transparent 50%);
+    /* iOS 26 Monaco Edition - Advanced Liquid Glass Background */
+    background-image: 
+      radial-gradient(circle at 15% 30%, oklch(0.25 0.08 240 / 0.4) 0%, transparent 40%),
+      radial-gradient(circle at 85% 70%, oklch(0.22 0.06 230 / 0.35) 0%, transparent 45%),
+      radial-gradient(circle at 50% 90%, oklch(0.18 0.05 250 / 0.25) 0%, transparent 50%),
+      linear-gradient(135deg, oklch(0.14 0.03 245 / 0.2) 0%, oklch(0.12 0.02 250) 100%);
+    background-attachment: fixed;
   }
-  /* Liquid glass card effect */
+  /* iOS 26 Monaco Edition - Premium Liquid Glass Effects */
   .glass-card {
-    @apply backdrop-blur-xl bg-card/60 border border-border/50;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    @apply backdrop-blur-2xl bg-card/50 border border-border/40;
+    box-shadow: 
+      0 8px 32px 0 rgba(31, 38, 135, 0.37),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+      0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    background-image: linear-gradient(135deg, 
+      oklch(0.18 0.03 245 / 0.6) 0%, 
+      oklch(0.15 0.025 250 / 0.5) 100%);
+  }
+  
+  .glass-intense {
+    @apply backdrop-blur-3xl bg-card/70 border border-border/60;
+    box-shadow: 
+      0 12px 48px 0 rgba(31, 38, 135, 0.5),
+      inset 0 2px 0 0 rgba(255, 255, 255, 0.15),
+      0 2px 4px 0 rgba(0, 0, 0, 0.4);
+    background-image: linear-gradient(135deg, 
+      oklch(0.2 0.04 240 / 0.7) 0%, 
+      oklch(0.16 0.03 250 / 0.6) 100%);
+  }
+  
+  .glass-subtle {
+    @apply backdrop-blur-xl bg-card/30 border border-border/20;
+    box-shadow: 
+      0 4px 16px 0 rgba(31, 38, 135, 0.2),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+    background-image: linear-gradient(135deg, 
+      oklch(0.16 0.02 245 / 0.4) 0%, 
+      oklch(0.14 0.02 250 / 0.3) 100%);
+  }
+  
+  /* Monaco Edition - Luxury Gradient Overlays */
+  .monaco-gradient {
+    background: linear-gradient(135deg, 
+      oklch(0.6 0.15 240) 0%, 
+      oklch(0.55 0.12 230) 50%, 
+      oklch(0.5 0.1 220) 100%);
+  }
+  
+  .monaco-gradient-text {
+    background: linear-gradient(135deg, 
+      oklch(0.75 0.15 240) 0%, 
+      oklch(0.65 0.12 230) 50%, 
+      oklch(0.85 0.1 250) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Premium Depth and Layering */
+  .depth-layer-1 {
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  .depth-layer-2 {
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.3);
+  }
+  
+  .depth-layer-3 {
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Smooth Monaco Animations */
+  .monaco-transition {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .monaco-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 48px 0 rgba(31, 38, 135, 0.5);
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),

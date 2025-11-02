@@ -44,7 +44,7 @@ export async function generateTextTo3D(prompt: string): Promise<string> {
         // Embed authorship in metadata
         metadata: {
           author: 'Jonathan Sherman',
-          project: 'Helium-Manus Integration Platform',
+          project: 'Q++RS Integration Platform',
           created_at: new Date().toISOString(),
         },
       }),
@@ -111,7 +111,7 @@ export async function generateImageTo3D(imageUrl: string): Promise<string> {
         model_version: 'v2.0-20240919',
         metadata: {
           author: 'Jonathan Sherman',
-          project: 'Helium-Manus Integration Platform',
+          project: 'Q++RS Integration Platform',
         },
       }),
     });

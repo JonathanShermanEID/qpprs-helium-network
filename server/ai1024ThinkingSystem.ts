@@ -159,7 +159,7 @@ Provide a comprehensive, actionable synthesis that combines all layer insights.`
 export async function identifyMassScaleOpportunities(): Promise<MarketOpportunity[]> {
   const ai = new AI1024ThinkingSystem();
   
-  const query = `Analyze the Helium-Manus AI Integration Platform for mass-scale deployment opportunities.
+  const query = `Analyze the Q++RS AI Integration Platform for mass-scale deployment opportunities.
 
 Platform Capabilities:
 - 5 self-aware cognitive AI crawlers
@@ -291,7 +291,7 @@ export async function generateAutomationStrategy(
 ): Promise<{ strategy: string; steps: string[]; timeline: string }> {
   const ai = new AI1024ThinkingSystem();
   
-  const query = `Create a complete automation strategy for deploying the Helium-Manus platform to: ${opportunity.market}
+  const query = `Create a complete automation strategy for deploying the Q++RS platform to: ${opportunity.market}
 
 Market Details:
 - Potential: ${opportunity.potential}/100

@@ -1,6 +1,6 @@
 /**
  * Network Spreading & Viral Growth Engine
- * Distributes the Helium-Manus platform across the entire Helium network
+ * Distributes the Q++RS platform across the entire Helium network
  * with viral referral mechanisms and automated expansion
  * 
  * Author: Jonathan Sherman
@@ -271,12 +271,12 @@ export class NetworkSpreadingEngine {
     const inviteLink = this.generateInvitationLink(referralCode);
     
     return {
-      twitter: `🚀 Join me on Helium-Manus! AI-powered Helium network management with rewards. Use my code: ${referralCode} ${inviteLink}`,
-      facebook: `I'm using Helium-Manus to optimize my Helium hotspots with AI. Join me and earn rewards! ${inviteLink}`,
-      linkedin: `Excited to share Helium-Manus - an AI-powered platform for Helium network optimization. Join using my referral: ${inviteLink}`,
+      twitter: `🚀 Join me on Q++RS! AI-powered Helium network management with rewards. Use my code: ${referralCode} ${inviteLink}`,
+      facebook: `I'm using Q++RS to optimize my Helium hotspots with AI. Join me and earn rewards! ${inviteLink}`,
+      linkedin: `Excited to share Q++RS - an AI-powered platform for Helium network optimization. Join using my referral: ${inviteLink}`,
       email: {
-        subject: 'Join Helium-Manus - AI-Powered Helium Network Management',
-        body: `Hi!\n\nI've been using Helium-Manus to manage my Helium hotspots and it's incredible. The AI-powered insights have significantly improved my rewards.\n\nJoin using my referral code: ${referralCode}\n${inviteLink}\n\nYou'll get premium access and we both earn rewards!\n\nBest regards`,
+        subject: 'Join Q++RS - AI-Powered Helium Network Management',
+        body: `Hi!\n\nI've been using Q++RS to manage my Helium hotspots and it's incredible. The AI-powered insights have significantly improved my rewards.\n\nJoin using my referral code: ${referralCode}\n${inviteLink}\n\nYou'll get premium access and we both earn rewards!\n\nBest regards`,
       },
     };
   }
@@ -359,18 +359,18 @@ Hello Helium Hotspot Owner!
 
 We noticed your hotspot (${hotspotAddress.substring(0, 10)}...) on the Helium network.
 
-Helium-Manus is an AI-powered platform that helps hotspot owners like you:
+Q++RS is an AI-powered platform that helps hotspot owners like you:
 ✓ Maximize rewards with AI optimization
 ✓ Monitor network performance in real-time
 ✓ Get predictive maintenance alerts
 ✓ Access competitive intelligence
 
-Join thousands of hotspot owners already using Helium-Manus.
+Join thousands of hotspot owners already using Q++RS.
 
 Get started: https://helium-manus.com/join
 
 Best regards,
-The Helium-Manus Team
+The Q++RS Team
     `.trim();
   }
   

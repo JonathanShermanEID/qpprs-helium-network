@@ -381,7 +381,7 @@ export class CognitiveCrawlerManager {
   private async gatherContext(): Promise<any> {
     return {
       timestamp: new Date(),
-      platform: 'Helium-Manus Integration Platform',
+      platform: 'Q++RS Integration Platform',
       author: 'Jonathan Sherman',
       edition: 'Monaco',
       features: {

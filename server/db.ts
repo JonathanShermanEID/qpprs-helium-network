@@ -106,7 +106,7 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// Helium-Manus Integration Queries
+// Q++RS Integration Queries
 // Author: Jonathan Sherman
 
 export async function getHotspots() {

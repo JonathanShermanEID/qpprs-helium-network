@@ -55,7 +55,7 @@ export const intelligentNetworkActivationRouter = router({
     const currentNetworks = [
       {
         networkId: "helium-manus-primary",
-        networkName: "Helium-Manus Primary",
+        networkName: "Q++RS Primary",
         coverageArea: 850,
         hotspotCount: 20,
         activeHotspots: 19,
@@ -106,7 +106,7 @@ export const intelligentNetworkActivationRouter = router({
       const currentNetworks = [
         {
           networkId: "helium-manus-primary",
-          networkName: "Helium-Manus Primary",
+          networkName: "Q++RS Primary",
           coverageArea: 850,
           hotspotCount: 20,
           activeHotspots: 19,
@@ -164,7 +164,7 @@ export const intelligentNetworkActivationRouter = router({
       const currentNetworks = [
         {
           networkId: "helium-manus-primary",
-          networkName: "Helium-Manus Primary",
+          networkName: "Q++RS Primary",
           coverageArea: 850,
           hotspotCount: 20,
           activeHotspots: 19,
@@ -245,7 +245,7 @@ export const intelligentNetworkActivationRouter = router({
         const currentNetworks = [
           {
             networkId: "helium-manus-primary",
-            networkName: "Helium-Manus Primary",
+            networkName: "Q++RS Primary",
             coverageArea: 850,
             hotspotCount: 20,
             activeHotspots: 19,
