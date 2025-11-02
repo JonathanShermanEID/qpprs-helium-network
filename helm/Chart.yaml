@@ -1,0 +1,18 @@
+apiVersion: v2
+name: helium-manus-platform
+description: Helium-Manus Integration Platform - Monaco Edition
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords:
+  - helium
+  - telecommunications
+  - ai
+  - cognitive
+  - mesh-network
+maintainers:
+  - name: Jonathan Sherman
+    email: jonathan@helium-manus.com
+sources:
+  - https://github.com/jonathan-sherman/helium-manus-platform
+icon: https://helium-manus.com/logo.png
