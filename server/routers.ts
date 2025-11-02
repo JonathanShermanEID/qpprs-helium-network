@@ -14,6 +14,7 @@ import { telecomRouter } from "./routers/telecom";
 import { deviceActivationRouter } from "./routers/deviceActivation";
 import { conversationMonitorRouter } from "./routers/conversationMonitor";
 import { certificates3DRouter } from "./routers/certificates3D";
+import { campaignsRouter } from "./routers/campaigns";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -28,6 +29,7 @@ export const appRouter = router({
   deviceActivation: deviceActivationRouter,
   conversationMonitor: conversationMonitorRouter,
   certificates3D: certificates3DRouter,
+  campaigns: campaignsRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
