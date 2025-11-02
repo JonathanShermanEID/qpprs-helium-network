@@ -11,7 +11,7 @@ import '@/utils/errorMonitoring'; // Initialize 100 frontend AI error fixers
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
-import { Activity, Brain, Network, TrendingUp, Zap, Radio, Cpu, Sparkles, Cable, Phone, Settings, MapPin } from "lucide-react";
+import { Activity, Brain, Network, TrendingUp, Zap, Radio, Cpu, Sparkles, Cable, Phone, Settings, MapPin, Bitcoin } from "lucide-react";
 import { MicrosoftGlyph } from "@/components/MicrosoftGlyph";
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
@@ -368,6 +368,21 @@ export default function Home() {
               <CardTitle>Coverage Opportunities</CardTitle>
               <CardDescription>
                 Network expansion areas with deployment recommendations
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card 
+            className="glass-card border-orange-500/30 hover:border-orange-500/60 transition-all group cursor-pointer"
+            onClick={() => setLocation('/crypto-payments')}
+          >
+            <CardHeader>
+              <div className="mb-4">
+                <MicrosoftGlyph icon={Bitcoin} size="md" variant="accent" />
+              </div>
+              <CardTitle>Crypto Payments</CardTitle>
+              <CardDescription>
+                Bitcoin & Coinbase wallet (iPhone XR Exclusive)
               </CardDescription>
             </CardHeader>
           </Card>

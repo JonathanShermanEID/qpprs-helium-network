@@ -14,6 +14,7 @@ import LoRaDevices from "./pages/LoRaDevices";
 import HybridNetwork from "./pages/HybridNetwork";
 import Telecommunications from "./pages/Telecommunications";
 import CoverageOpportunities from "./pages/CoverageOpportunities";
+import CryptoPayments from "./pages/CryptoPayments";
 import { NetworkStatusIndicator } from "./components/NetworkStatusIndicator";
 import { IOSConnectionBanner } from "./components/IOSConnectionBanner";
 
@@ -31,6 +32,7 @@ function Router() {
       <Route path={"/hybrid-network"} component={HybridNetwork} />
       <Route path={"/telecommunications"} component={Telecommunications} />
       <Route path={"/coverage-opportunities"} component={CoverageOpportunities} />
+      <Route path={"/crypto-payments"} component={CryptoPayments} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

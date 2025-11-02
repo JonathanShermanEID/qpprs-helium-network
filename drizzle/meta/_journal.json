@@ -71,6 +71,13 @@
       "when": 1762119548212,
       "tag": "0009_curious_firestar",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1762120074780,
+      "tag": "0010_flashy_black_queen",
+      "breakpoints": true
     }
   ]
 }

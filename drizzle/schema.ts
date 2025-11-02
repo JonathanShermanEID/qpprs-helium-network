@@ -459,3 +459,99 @@ export const coverageOpportunities = mysqlTable("coverage_opportunities", {
 
 export type CoverageOpportunity = typeof coverageOpportunities.$inferSelect;
 export type InsertCoverageOpportunity = typeof coverageOpportunities.$inferInsert;
+
+
+/**
+ * Cryptocurrency Payment System
+ * Bitcoin wallet and Coinbase Commerce integration
+ * Author: Jonathan Sherman - Monaco Edition
+ */
+
+// Crypto Wallets Configuration
+export const cryptoWallets = mysqlTable("crypto_wallets", {
+  id: int("id").autoincrement().primaryKey(),
+  walletType: mysqlEnum("wallet_type", ["bitcoin", "ethereum", "coinbase_commerce"]).notNull(),
+  walletAddress: varchar("wallet_address", { length: 255 }).notNull(),
+  walletName: varchar("wallet_name", { length: 100 }),
+  currency: varchar("currency", { length: 10 }).notNull(), // BTC, ETH, USDC, USDT
+  isActive: int("is_active").default(1).notNull(),
+  isPrimary: int("is_primary").default(0).notNull(),
+  qrCodeUrl: text("qr_code_url"),
+  metadata: text("metadata"), // JSON: additional wallet info
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// Payment Transactions
+export const cryptoTransactions = mysqlTable("crypto_transactions", {
+  id: int("id").autoincrement().primaryKey(),
+  transactionHash: varchar("transaction_hash", { length: 255 }).unique(),
+  walletId: int("wallet_id").notNull(),
+  fromAddress: varchar("from_address", { length: 255 }),
+  toAddress: varchar("to_address", { length: 255 }).notNull(),
+  amount: varchar("amount", { length: 50 }).notNull(), // Store as string to preserve precision
+  currency: varchar("currency", { length: 10 }).notNull(),
+  usdValue: varchar("usd_value", { length: 50 }), // USD equivalent at time of transaction
+  status: mysqlEnum("status", ["pending", "confirming", "confirmed", "completed", "failed", "expired"]).default("pending").notNull(),
+  confirmations: int("confirmations").default(0),
+  requiredConfirmations: int("required_confirmations").default(3),
+  paymentType: mysqlEnum("payment_type", ["hotspot_deployment", "telecom_service", "network_expansion", "subscription", "other"]),
+  invoiceId: int("invoice_id"),
+  customerId: varchar("customer_id", { length: 100 }),
+  customerEmail: varchar("customer_email", { length: 320 }),
+  metadata: text("metadata"), // JSON: additional transaction data
+  webhookData: text("webhook_data"), // JSON: raw webhook payload
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  confirmedAt: timestamp("confirmedAt"),
+  completedAt: timestamp("completedAt"),
+});
+
+// Payment Invoices
+export const cryptoInvoices = mysqlTable("crypto_invoices", {
+  id: int("id").autoincrement().primaryKey(),
+  invoiceNumber: varchar("invoice_number", { length: 50 }).unique().notNull(),
+  customerId: varchar("customer_id", { length: 100 }),
+  customerName: varchar("customer_name", { length: 255 }),
+  customerEmail: varchar("customer_email", { length: 320 }),
+  description: text("description").notNull(),
+  amount: varchar("amount", { length: 50 }).notNull(),
+  currency: varchar("currency", { length: 10 }).notNull(),
+  usdValue: varchar("usd_value", { length: 50 }),
+  status: mysqlEnum("status", ["draft", "pending", "paid", "partially_paid", "overdue", "cancelled"]).default("pending").notNull(),
+  paymentType: mysqlEnum("payment_type", ["hotspot_deployment", "telecom_service", "network_expansion", "subscription", "other"]),
+  coinbaseChargeId: varchar("coinbase_charge_id", { length: 255 }),
+  coinbaseChargeUrl: text("coinbase_charge_url"),
+  qrCodeUrl: text("qr_code_url"),
+  paymentAddress: varchar("payment_address", { length: 255 }),
+  expiresAt: timestamp("expiresAt"),
+  paidAt: timestamp("paidAt"),
+  metadata: text("metadata"), // JSON: line items, notes, etc.
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// Payment Analytics
+export const cryptoPaymentAnalytics = mysqlTable("crypto_payment_analytics", {
+  id: int("id").autoincrement().primaryKey(),
+  date: varchar("date", { length: 20 }).notNull(), // YYYY-MM-DD
+  currency: varchar("currency", { length: 10 }).notNull(),
+  totalTransactions: int("total_transactions").default(0),
+  successfulTransactions: int("successful_transactions").default(0),
+  failedTransactions: int("failed_transactions").default(0),
+  totalVolume: varchar("total_volume", { length: 50 }).default("0"),
+  totalUsdValue: varchar("total_usd_value", { length: 50 }).default("0"),
+  averageTransactionValue: varchar("average_transaction_value", { length: 50 }).default("0"),
+  metadata: text("metadata"), // JSON: additional analytics
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type CryptoWallet = typeof cryptoWallets.$inferSelect;
+export type InsertCryptoWallet = typeof cryptoWallets.$inferInsert;
+export type CryptoTransaction = typeof cryptoTransactions.$inferSelect;
+export type InsertCryptoTransaction = typeof cryptoTransactions.$inferInsert;
+export type CryptoInvoice = typeof cryptoInvoices.$inferSelect;
+export type InsertCryptoInvoice = typeof cryptoInvoices.$inferInsert;
+export type CryptoPaymentAnalytic = typeof cryptoPaymentAnalytics.$inferSelect;
+export type InsertCryptoPaymentAnalytic = typeof cryptoPaymentAnalytics.$inferInsert;

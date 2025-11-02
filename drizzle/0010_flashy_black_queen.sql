@@ -1,0 +1,81 @@
+CREATE TABLE `crypto_invoices` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`invoice_number` varchar(50) NOT NULL,
+	`customer_id` varchar(100),
+	`customer_name` varchar(255),
+	`customer_email` varchar(320),
+	`description` text NOT NULL,
+	`amount` varchar(50) NOT NULL,
+	`currency` varchar(10) NOT NULL,
+	`usd_value` varchar(50),
+	`status` enum('draft','pending','paid','partially_paid','overdue','cancelled') NOT NULL DEFAULT 'pending',
+	`payment_type` enum('hotspot_deployment','telecom_service','network_expansion','subscription','other'),
+	`coinbase_charge_id` varchar(255),
+	`coinbase_charge_url` text,
+	`qr_code_url` text,
+	`payment_address` varchar(255),
+	`expiresAt` timestamp,
+	`paidAt` timestamp,
+	`metadata` text,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `crypto_invoices_id` PRIMARY KEY(`id`),
+	CONSTRAINT `crypto_invoices_invoice_number_unique` UNIQUE(`invoice_number`)
+);
+--> statement-breakpoint
+CREATE TABLE `crypto_payment_analytics` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`date` varchar(20) NOT NULL,
+	`currency` varchar(10) NOT NULL,
+	`total_transactions` int DEFAULT 0,
+	`successful_transactions` int DEFAULT 0,
+	`failed_transactions` int DEFAULT 0,
+	`total_volume` varchar(50) DEFAULT '0',
+	`total_usd_value` varchar(50) DEFAULT '0',
+	`average_transaction_value` varchar(50) DEFAULT '0',
+	`metadata` text,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `crypto_payment_analytics_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `crypto_transactions` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`transaction_hash` varchar(255),
+	`wallet_id` int NOT NULL,
+	`from_address` varchar(255),
+	`to_address` varchar(255) NOT NULL,
+	`amount` varchar(50) NOT NULL,
+	`currency` varchar(10) NOT NULL,
+	`usd_value` varchar(50),
+	`status` enum('pending','confirming','confirmed','completed','failed','expired') NOT NULL DEFAULT 'pending',
+	`confirmations` int DEFAULT 0,
+	`required_confirmations` int DEFAULT 3,
+	`payment_type` enum('hotspot_deployment','telecom_service','network_expansion','subscription','other'),
+	`invoice_id` int,
+	`customer_id` varchar(100),
+	`customer_email` varchar(320),
+	`metadata` text,
+	`webhook_data` text,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	`confirmedAt` timestamp,
+	`completedAt` timestamp,
+	CONSTRAINT `crypto_transactions_id` PRIMARY KEY(`id`),
+	CONSTRAINT `crypto_transactions_transaction_hash_unique` UNIQUE(`transaction_hash`)
+);
+--> statement-breakpoint
+CREATE TABLE `crypto_wallets` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`wallet_type` enum('bitcoin','ethereum','coinbase_commerce') NOT NULL,
+	`wallet_address` varchar(255) NOT NULL,
+	`wallet_name` varchar(100),
+	`currency` varchar(10) NOT NULL,
+	`is_active` int NOT NULL DEFAULT 1,
+	`is_primary` int NOT NULL DEFAULT 0,
+	`qr_code_url` text,
+	`metadata` text,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `crypto_wallets_id` PRIMARY KEY(`id`)
+);
