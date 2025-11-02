@@ -254,7 +254,7 @@ export default function Home() {
         <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-1000 delay-600 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <Card 
             className="glass-card border-primary/30 hover:border-primary/60 transition-all group cursor-pointer"
-            onClick={() => setLocation('/network')}
+            onClick={() => setLocation('/network-intelligence')}
           >
             <CardHeader>
               <div className="mb-4">
@@ -344,7 +344,7 @@ export default function Home() {
 
           <Card 
             className="glass-card border-primary/30 hover:border-primary/60 transition-all group cursor-pointer"
-            onClick={() => setLocation('/devices')}
+            onClick={() => setLocation('/device-management')}
           >
             <CardHeader>
               <div className="mb-4">
