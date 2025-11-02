@@ -17,6 +17,7 @@ import CoverageOpportunities from "./pages/CoverageOpportunities";
 import CryptoPayments from "./pages/CryptoPayments";
 import { NetworkStatusIndicator } from "./components/NetworkStatusIndicator";
 import { IOSConnectionBanner } from "./components/IOSConnectionBanner";
+import { CloakingWrapper } from "./components/CloakingWrapper";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -53,10 +54,12 @@ function App() {
         // Apple iOS 26 Monaco Edition - Dark theme with liquid glass
       >
         <TooltipProvider>
-          <Toaster />
-          <IOSConnectionBanner />
-          <NetworkStatusIndicator />
-          <Router />
+          <CloakingWrapper>
+            <Toaster />
+            <IOSConnectionBanner />
+            <NetworkStatusIndicator />
+            <Router />
+          </CloakingWrapper>
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
