@@ -78,6 +78,20 @@
       "when": 1762120074780,
       "tag": "0010_flashy_black_queen",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1762122780758,
+      "tag": "0011_flashy_speed",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1762123928110,
+      "tag": "0012_whole_makkari",
+      "breakpoints": true
     }
   ]
 }
