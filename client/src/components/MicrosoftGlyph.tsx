@@ -10,7 +10,7 @@ import { LucideIcon } from 'lucide-react';
 interface MicrosoftGlyphProps {
   icon: LucideIcon;
   size?: 'sm' | 'md' | 'lg' | 'xl';
-  variant?: 'primary' | 'accent' | 'success' | 'warning';
+  variant?: 'primary' | 'accent' | 'success' | 'warning' | 'destructive';
   animated?: boolean;
   className?: string;
 }
@@ -66,9 +66,17 @@ export function MicrosoftGlyph({
       icon: 'text-[#FF8C00]',
       shine: 'from-transparent via-[#FF8C00]/30 to-transparent',
     },
+    destructive: {
+      bg: 'from-[#D13438]/20 via-[#E81123]/15 to-[#D13438]/10',
+      glow: 'shadow-[0_0_20px_rgba(232,17,35,0.4),0_0_40px_rgba(209,52,56,0.2),inset_0_0_20px_rgba(232,17,35,0.1)]',
+      border: 'border-[#E81123]/40',
+      icon: 'text-[#E81123]',
+      shine: 'from-transparent via-[#E81123]/30 to-transparent',
+    },
   };
 
-  const style = variantStyles[variant];
+  // Get style with fallback to primary if variant is invalid
+  const style = variantStyles[variant] || variantStyles.primary;
 
   return (
     <div className={`relative ${sizeClasses[size]} ${className}`}>
