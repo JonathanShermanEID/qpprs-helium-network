@@ -1087,3 +1087,22 @@
 - [x] Update with correct phone numbers (661-478-2079)
 - [x] Verify all account details are accurate
 - [x] Test telecommunications page
+
+
+## Query Verizon System for All Real Phone Numbers
+- [ ] Use Verizon API Manager LLM to query account
+- [ ] Retrieve all phone lines associated with account
+- [ ] Extract plan details and usage statistics
+- [ ] Update telecommunications database with all retrieved numbers
+- [ ] Verify all numbers are displayed correctly
+
+
+## Vision-Based My Verizon Data Extraction
+- [x] Build AI vision system for screenshot analysis
+- [x] Create image upload interface
+- [x] Implement OCR and data extraction from My Verizon screenshots
+- [x] Extract phone numbers, plans, and usage data
+- [x] Validate extracted data with LLM
+- [x] Automatically update telecommunications database
+- [x] Create screenshot upload UI in telecommunications page
+- [x] Test with real My Verizon screenshots

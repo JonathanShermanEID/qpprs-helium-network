@@ -9,9 +9,17 @@
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Phone, MessageSquare, Database, Signal } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Loader2, Phone, MessageSquare, Database, Signal, Upload, Camera } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function Telecommunications() {
+  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+
   const { data: overview, isLoading: overviewLoading } = trpc.telecom.overview.useQuery();
   const { data: voiceStats, isLoading: voiceLoading } = trpc.telecom.voice.stats.useQuery();
   const { data: textStats, isLoading: textLoading } = trpc.telecom.text.stats.useQuery();
@@ -19,6 +27,32 @@ export default function Telecommunications() {
   const { data: voiceAccounts } = trpc.telecom.voice.list.useQuery();
   const { data: textAccounts } = trpc.telecom.text.list.useQuery();
   const { data: dataAccounts } = trpc.telecom.data.list.useQuery();
+  
+  const utils = trpc.useUtils();
+  const extractMutation = trpc.visionVerizon.extractFromScreenshot.useMutation({
+    onSuccess: (data: any) => {
+      toast.success(`Extracted ${data.phoneLines.length} phone lines with ${data.confidence}% confidence`);
+      utils.telecom.invalidate();
+      setUploadDialogOpen(false);
+      setImageUrl("");
+    },
+    onError: (error: any) => {
+      toast.error(`Extraction failed: ${error.message}`);
+    }
+  });
+
+  const handleExtract = async () => {
+    if (!imageUrl) {
+      toast.error("Please enter an image URL");
+      return;
+    }
+    setUploading(true);
+    try {
+      await extractMutation.mutateAsync({ imageUrl });
+    } finally {
+      setUploading(false);
+    }
+  };
 
   if (overviewLoading || voiceLoading || textLoading || dataLoading) {
     return (
@@ -32,14 +66,62 @@ export default function Telecommunications() {
     <div className="min-h-screen bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-950 p-6">
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8">
-        <div className="flex items-center gap-4 mb-2">
-          <div className="w-12 h-12 rounded-xl bg-blue-500/20 backdrop-blur-xl border border-blue-400/30 flex items-center justify-center">
-            <Signal className="w-6 h-6 text-blue-400" />
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-blue-500/20 backdrop-blur-xl border border-blue-400/30 flex items-center justify-center">
+              <Signal className="w-6 h-6 text-blue-400" />
+            </div>
+            <div>
+              <h1 className="text-4xl font-bold text-white">Telecommunications Services</h1>
+              <p className="text-blue-300">Voice, Text & Data Provisioning</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-4xl font-bold text-white">Telecommunications Services</h1>
-            <p className="text-blue-300">Voice, Text & Data Provisioning</p>
-          </div>
+          <Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                <Camera className="w-4 h-4 mr-2" />
+                Import from My Verizon
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="bg-blue-950 border-blue-400/30 text-white">
+              <DialogHeader>
+                <DialogTitle className="text-white">Vision-Based Data Extraction</DialogTitle>
+                <DialogDescription className="text-blue-300">
+                  Upload a screenshot of your My Verizon account and AI will automatically extract all phone numbers and account data.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm text-blue-300 mb-2 block">My Verizon Screenshot URL</label>
+                  <input
+                    type="url"
+                    placeholder="https://example.com/my-verizon-screenshot.png"
+                    value={imageUrl}
+                    onChange={(e) => setImageUrl(e.target.value)}
+                    className="w-full px-4 py-2 bg-blue-900/50 border border-blue-400/30 rounded-lg text-white placeholder-blue-400/50 focus:outline-none focus:border-blue-400"
+                  />
+                  <p className="text-xs text-blue-400 mt-1">Paste the URL of your My Verizon account screenshot</p>
+                </div>
+                <Button
+                  onClick={handleExtract}
+                  disabled={uploading || !imageUrl}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  {uploading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Extracting Data...
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-4 h-4 mr-2" />
+                      Extract Account Data
+                    </>
+                  )}
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
         <p className="text-blue-200/80 mt-4">
           Complete telecommunications capabilities over the hybrid mesh network. Voice calls, SMS/MMS messaging, and high-speed data services.
