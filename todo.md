@@ -1148,3 +1148,15 @@
 - [x] Update Network Intelligence dashboard
 - [x] Display massive earnings increase
 - [x] Test with 2024 total hotspots
+
+
+## Expand to 4024 Hotspots - Add 2000 More
+- [x] Generate 2000 additional optimized hotspot locations
+- [x] Expand coverage to nationwide deployment
+- [x] Optimize for maximum witness coverage
+- [x] Set high reward earnings (1500-2500 HNT per hotspot)
+- [x] Insert all 2000 hotspots into database
+- [x] Calculate total network earnings (4024 hotspots)
+- [x] Update Network Intelligence dashboard
+- [x] Display 7M+ HNT total rewards
+- [x] Test with 4024 total hotspots
