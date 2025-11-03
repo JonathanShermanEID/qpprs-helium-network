@@ -1,0 +1,13 @@
+{
+  "query": "SELECT COUNT(*) as total_hotspots FROM hotspots;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 28CHWtM5UJNbLNs.96465bd381e1 --database hYXGHeoHE88N65i9nWMTPo --execute SELECT COUNT(*) as total_hotspots FROM hotspots;",
+  "rows": [
+    {
+      "total_hotspots": "2024"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_hotspots\n2024\n",
+  "stderr": "",
+  "execution_time_ms": 50
+}
