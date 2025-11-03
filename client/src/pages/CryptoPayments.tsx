@@ -19,7 +19,8 @@ import {
   Bitcoin,
   DollarSign,
   QrCode,
-  Shield
+  Shield,
+  Zap
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -84,6 +85,20 @@ export default function CryptoPayments() {
     },
     onError: (error) => {
       toast.error(`Failed to add wallet: ${error.message}`);
+    }
+  });
+
+  const automatedCoinbaseSetup = trpc.cryptoPayments.automatedCoinbaseSetup.useMutation({
+    onSuccess: (result) => {
+      if (result.success) {
+        toast.success(`${result.message} - ${result.walletsConfigured} wallets configured!`);
+        utils.cryptoPayments.listWallets.invalidate();
+      } else {
+        toast.error(result.message);
+      }
+    },
+    onError: (error: any) => {
+      toast.error(`Automated setup failed: ${error.message}`);
     }
   });
 
@@ -251,14 +266,23 @@ export default function CryptoPayments() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold">Crypto Wallets</h2>
-            <Dialog open={isAddWalletOpen} onOpenChange={setIsAddWalletOpen}>
-              <DialogTrigger asChild>
-                <Button>
-                  <Wallet className="w-4 h-4 mr-2" />
-                  Add Wallet
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[500px]">
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                onClick={() => automatedCoinbaseSetup.mutate()}
+                disabled={automatedCoinbaseSetup.isPending}
+              >
+                <Zap className="w-4 h-4 mr-2" />
+                {automatedCoinbaseSetup.isPending ? "Setting up..." : "Auto-Setup Coinbase"}
+              </Button>
+              <Dialog open={isAddWalletOpen} onOpenChange={setIsAddWalletOpen}>
+                <DialogTrigger asChild>
+                  <Button>
+                    <Wallet className="w-4 h-4 mr-2" />
+                    Add Wallet
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
                   <DialogTitle>Add Crypto Wallet</DialogTitle>
                   <DialogDescription>
@@ -324,8 +348,9 @@ export default function CryptoPayments() {
                     {addWalletMutation.isPending ? "Adding..." : "Add Wallet"}
                   </Button>
                 </div>
-              </DialogContent>
-            </Dialog>
+                </DialogContent>
+              </Dialog>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

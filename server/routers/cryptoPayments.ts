@@ -8,6 +8,7 @@
 import { z } from "zod";
 import { publicProcedure, router } from "../_core/trpc";
 import { iphoneXROnlyProcedure } from "../_core/iphoneXRProcedure";
+import { coinbaseAutomation } from "../coinbaseAutomation";
 import { getDb } from "../db";
 import { 
   cryptoWallets, 
@@ -369,5 +370,27 @@ export const cryptoPaymentsRouter = router({
         .limit(limit);
 
       return transactions;
+    }),
+
+  // ============================================
+  // AUTOMATED COINBASE SETUP (iPhone XR ONLY)
+  // ============================================
+
+  // One-click automated Coinbase wallet setup
+  automatedCoinbaseSetup: iphoneXROnlyProcedure.mutation(async ({ ctx }) => {
+    if (!ctx.user) throw new Error("User not authenticated");
+    return await coinbaseAutomation.automatedSetup(ctx.user.id.toString());
+  }),
+
+  // Verify Coinbase API connection
+  verifyCoinbaseConnection: iphoneXROnlyProcedure.query(async () => {
+    return await coinbaseAutomation.verifyConnection();
+  }),
+
+  // Sync wallet balances from Coinbase
+  syncWalletBalances: iphoneXROnlyProcedure
+    .input(z.object({ walletIds: z.array(z.string()) }))
+    .mutation(async ({ input }) => {
+      return await coinbaseAutomation.syncWalletBalances(input.walletIds);
     }),
 });
