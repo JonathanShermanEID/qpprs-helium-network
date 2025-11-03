@@ -1,0 +1,22 @@
+{
+  "query": "SELECT * FROM voiceProvisioning WHERE status = 'suspended';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 28CHWtM5UJNbLNs.96465bd381e1 --database hYXGHeoHE88N65i9nWMTPo --execute SELECT * FROM voiceProvisioning WHERE status = 'suspended';",
+  "rows": [
+    {
+      "id": "4",
+      "userId": "user-004",
+      "phoneNumber": "+1-555-0104",
+      "status": "suspended",
+      "plan": "Premium 2000",
+      "minutesUsed": "2100",
+      "minutesAllowed": "2000",
+      "voipEnabled": "0",
+      "createdAt": "2025-11-01 21:03:19",
+      "updatedAt": "2025-11-01 21:03:19"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tuserId\tphoneNumber\tstatus\tplan\tminutesUsed\tminutesAllowed\tvoipEnabled\tcreatedAt\tupdatedAt\n4\tuser-004\t+1-555-0104\tsuspended\tPremium 2000\t2100\t2000\t0\t2025-11-01 21:03:19\t2025-11-01 21:03:19\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

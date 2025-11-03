@@ -1,0 +1,60 @@
+{
+  "query": "SELECT id, userId, phoneNumber, status, messagesUsed, messagesAllowed, smsEnabled, mmsEnabled FROM textProvisioning;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 28CHWtM5UJNbLNs.96465bd381e1 --database hYXGHeoHE88N65i9nWMTPo --execute SELECT id, userId, phoneNumber, status, messagesUsed, messagesAllowed, smsEnabled, mmsEnabled FROM textProvisioning;",
+  "rows": [
+    {
+      "id": "1",
+      "userId": "user-001",
+      "phoneNumber": "+1-555-0101",
+      "status": "active",
+      "messagesUsed": "450",
+      "messagesAllowed": "999999",
+      "smsEnabled": "1",
+      "mmsEnabled": "1"
+    },
+    {
+      "id": "2",
+      "userId": "user-002",
+      "phoneNumber": "+1-555-0102",
+      "status": "active",
+      "messagesUsed": "1200",
+      "messagesAllowed": "5000",
+      "smsEnabled": "1",
+      "mmsEnabled": "1"
+    },
+    {
+      "id": "3",
+      "userId": "user-003",
+      "phoneNumber": "+1-555-0103",
+      "status": "active",
+      "messagesUsed": "89",
+      "messagesAllowed": "500",
+      "smsEnabled": "1",
+      "mmsEnabled": "0"
+    },
+    {
+      "id": "4",
+      "userId": "user-004",
+      "phoneNumber": "+1-555-0104",
+      "status": "suspended",
+      "messagesUsed": "2500",
+      "messagesAllowed": "2000",
+      "smsEnabled": "0",
+      "mmsEnabled": "0"
+    },
+    {
+      "id": "5",
+      "userId": "user-005",
+      "phoneNumber": "+1-555-0105",
+      "status": "active",
+      "messagesUsed": "3250",
+      "messagesAllowed": "999999",
+      "smsEnabled": "1",
+      "mmsEnabled": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tuserId\tphoneNumber\tstatus\tmessagesUsed\tmessagesAllowed\tsmsEnabled\tmmsEnabled\n1\tuser-001\t+1-555-0101\tactive\t450\t999999\t1\t1\n2\tuser-002\t+1-555-0102\tactive\t1200\t5000\t1\t1\n3\tuser-003\t+1-555-0103\tactive\t89\t500\t1\t0\n4\tuser-004\t+1-555-0104\tsuspended\t2500\t2000\t0\t0\n5\tuser-005\t+1-555-0105\tactive\t3250\t999999\t1\t1\n",
+  "stderr": "",
+  "execution_time_ms": 46
+}

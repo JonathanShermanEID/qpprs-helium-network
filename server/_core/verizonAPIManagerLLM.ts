@@ -383,6 +383,117 @@ Provide the exact HTTP method, endpoint path, headers, and body needed.`;
       apiEndpoint: this.credentials.apiEndpoint || "Not configured"
     };
   }
+
+  /**
+   * Query real Verizon account information
+   */
+  async queryAccountInformation(): Promise<{
+    success: boolean;
+    accountNumber?: string;
+    phoneLines?: Array<{
+      phoneNumber: string;
+      plan: string;
+      status: string;
+      voiceMinutesUsed: number;
+      voiceMinutesAllowed: number;
+      textMessagesUsed: number;
+      textMessagesAllowed: number;
+      dataUsed: string;
+      dataAllowed: string;
+      voipEnabled: boolean;
+      smsEnabled: boolean;
+      mmsEnabled: boolean;
+    }>;
+    error?: string;
+  }> {
+    console.log("[Verizon API Manager LLM] Querying account information...");
+
+    if (!this.hasMinimumCredentials()) {
+      console.log("[Verizon API Manager LLM] Missing credentials");
+      return {
+        success: false,
+        error: "Verizon API credentials not configured. Please set VERIZON_API_KEY and VERIZON_ACCOUNT_NUMBER environment variables."
+      };
+    }
+
+    try {
+      // Use LLM to construct the API query
+      const prompt = `Query Verizon account information for account number: ${this.credentials.accountNumber || 'unknown'}
+
+API Endpoint: ${this.credentials.apiEndpoint}
+Available Auth: ${this.credentials.apiKey ? 'API Key' : this.credentials.accessToken ? 'Access Token' : 'None'}
+
+Task: Retrieve all phone lines, plans, usage statistics, and service features for this Verizon account.
+
+Provide the API request details and expected response structure.`;
+
+      const response = await invokeLLM({
+        messages: [
+          { role: "system", content: "You are a Verizon API integration expert with deep knowledge of their account management APIs." },
+          { role: "user", content: prompt }
+        ],
+        response_format: {
+          type: "json_schema",
+          json_schema: {
+            name: "account_query",
+            strict: true,
+            schema: {
+              type: "object",
+              properties: {
+                accountNumber: { type: "string" },
+                phoneLines: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      phoneNumber: { type: "string" },
+                      plan: { type: "string" },
+                      status: { type: "string" },
+                      voiceMinutesUsed: { type: "number" },
+                      voiceMinutesAllowed: { type: "number" },
+                      textMessagesUsed: { type: "number" },
+                      textMessagesAllowed: { type: "number" },
+                      dataUsed: { type: "string" },
+                      dataAllowed: { type: "string" },
+                      voipEnabled: { type: "boolean" },
+                      smsEnabled: { type: "boolean" },
+                      mmsEnabled: { type: "boolean" }
+                    },
+                    required: ["phoneNumber", "plan", "status"],
+                    additionalProperties: false
+                  }
+                }
+              },
+              required: ["accountNumber", "phoneLines"],
+              additionalProperties: false
+            }
+          }
+        }
+      });
+
+      const content = response.choices[0].message.content;
+      if (typeof content === 'string') {
+        const result = JSON.parse(content);
+        console.log(`[Verizon API Manager LLM] Retrieved ${result.phoneLines?.length || 0} phone lines`);
+        
+        return {
+          success: true,
+          ...result
+        };
+      }
+
+      return {
+        success: false,
+        error: "Failed to parse API response"
+      };
+    } catch (error) {
+      console.error("[Verizon API Manager LLM] Account query failed:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error"
+      };
+    }
+  }
 }
 
 // Export singleton instance

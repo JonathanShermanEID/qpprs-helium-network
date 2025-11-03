@@ -1,0 +1,9 @@
+{
+  "query": "DELETE FROM voiceProvisioning;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 28CHWtM5UJNbLNs.96465bd381e1 --database hYXGHeoHE88N65i9nWMTPo --execute DELETE FROM voiceProvisioning;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 145
+}
