@@ -22,10 +22,22 @@ import {
   Shield
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "sonner";
 
 export default function CryptoPayments() {
   const [isIPhoneXR, setIsIPhoneXR] = useState(false);
   const [deviceFingerprint, setDeviceFingerprint] = useState("");
+  const [isAddWalletOpen, setIsAddWalletOpen] = useState(false);
+  const [newWallet, setNewWallet] = useState({
+    walletType: "bitcoin" as "bitcoin" | "ethereum" | "coinbase_commerce",
+    walletName: "",
+    walletAddress: "",
+    currency: "BTC"
+  });
 
   // Detect if this is the authentic iPhone XR
   useEffect(() => {
@@ -56,6 +68,32 @@ export default function CryptoPayments() {
     {},
     { enabled: isIPhoneXR }
   );
+
+  const utils = trpc.useUtils();
+  const addWalletMutation = trpc.cryptoPayments.addWallet.useMutation({
+    onSuccess: () => {
+      toast.success("Wallet added successfully!");
+      setIsAddWalletOpen(false);
+      setNewWallet({
+        walletType: "bitcoin",
+        walletName: "",
+        walletAddress: "",
+        currency: "BTC"
+      });
+      utils.cryptoPayments.listWallets.invalidate();
+    },
+    onError: (error) => {
+      toast.error(`Failed to add wallet: ${error.message}`);
+    }
+  });
+
+  const handleAddWallet = () => {
+    if (!newWallet.walletAddress) {
+      toast.error("Please enter a wallet address");
+      return;
+    }
+    addWalletMutation.mutate(newWallet);
+  };
 
   // Block access for non-iPhone XR devices
   if (!isIPhoneXR) {
@@ -213,10 +251,81 @@ export default function CryptoPayments() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold">Crypto Wallets</h2>
-            <Button>
-              <Wallet className="w-4 h-4 mr-2" />
-              Add Wallet
-            </Button>
+            <Dialog open={isAddWalletOpen} onOpenChange={setIsAddWalletOpen}>
+              <DialogTrigger asChild>
+                <Button>
+                  <Wallet className="w-4 h-4 mr-2" />
+                  Add Wallet
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[500px]">
+                <DialogHeader>
+                  <DialogTitle>Add Crypto Wallet</DialogTitle>
+                  <DialogDescription>
+                    Configure a new cryptocurrency wallet to accept payments
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="walletType">Wallet Type</Label>
+                    <Select
+                      value={newWallet.walletType}
+                      onValueChange={(value: any) => {
+                        setNewWallet({ ...newWallet, walletType: value });
+                        if (value === "bitcoin") setNewWallet({ ...newWallet, walletType: value, currency: "BTC" });
+                        if (value === "ethereum") setNewWallet({ ...newWallet, walletType: value, currency: "ETH" });
+                        if (value === "coinbase_commerce") setNewWallet({ ...newWallet, walletType: value, currency: "USD" });
+                      }}
+                    >
+                      <SelectTrigger id="walletType">
+                        <SelectValue placeholder="Select wallet type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="bitcoin">Bitcoin (BTC)</SelectItem>
+                        <SelectItem value="ethereum">Ethereum (ETH)</SelectItem>
+                        <SelectItem value="coinbase_commerce">Coinbase Commerce</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="walletName">Wallet Name (Optional)</Label>
+                    <Input
+                      id="walletName"
+                      placeholder="e.g., Primary Bitcoin Wallet"
+                      value={newWallet.walletName}
+                      onChange={(e) => setNewWallet({ ...newWallet, walletName: e.target.value })}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="walletAddress">Wallet Address *</Label>
+                    <Input
+                      id="walletAddress"
+                      placeholder="Enter your wallet address"
+                      value={newWallet.walletAddress}
+                      onChange={(e) => setNewWallet({ ...newWallet, walletAddress: e.target.value })}
+                      className="font-mono text-sm"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="currency">Currency</Label>
+                    <Input
+                      id="currency"
+                      value={newWallet.currency}
+                      onChange={(e) => setNewWallet({ ...newWallet, currency: e.target.value })}
+                      placeholder="BTC, ETH, USD, etc."
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-end gap-3">
+                  <Button variant="outline" onClick={() => setIsAddWalletOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={handleAddWallet} disabled={addWalletMutation.isPending}>
+                    {addWalletMutation.isPending ? "Adding..." : "Add Wallet"}
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -264,10 +373,81 @@ export default function CryptoPayments() {
                   <p className="text-muted-foreground text-center max-w-md mb-4">
                     Add your Bitcoin or Coinbase Commerce wallet to start accepting cryptocurrency payments.
                   </p>
-                  <Button>
-                    <Wallet className="w-4 h-4 mr-2" />
-                    Add Your First Wallet
-                  </Button>
+                  <Dialog open={isAddWalletOpen} onOpenChange={setIsAddWalletOpen}>
+                    <DialogTrigger asChild>
+                      <Button>
+                        <Wallet className="w-4 h-4 mr-2" />
+                        Add Your First Wallet
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[500px]">
+                      <DialogHeader>
+                        <DialogTitle>Add Crypto Wallet</DialogTitle>
+                        <DialogDescription>
+                          Configure a new cryptocurrency wallet to accept payments
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4 py-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="walletType2">Wallet Type</Label>
+                          <Select
+                            value={newWallet.walletType}
+                            onValueChange={(value: any) => {
+                              setNewWallet({ ...newWallet, walletType: value });
+                              if (value === "bitcoin") setNewWallet({ ...newWallet, walletType: value, currency: "BTC" });
+                              if (value === "ethereum") setNewWallet({ ...newWallet, walletType: value, currency: "ETH" });
+                              if (value === "coinbase_commerce") setNewWallet({ ...newWallet, walletType: value, currency: "USD" });
+                            }}
+                          >
+                            <SelectTrigger id="walletType2">
+                              <SelectValue placeholder="Select wallet type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="bitcoin">Bitcoin (BTC)</SelectItem>
+                              <SelectItem value="ethereum">Ethereum (ETH)</SelectItem>
+                              <SelectItem value="coinbase_commerce">Coinbase Commerce</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="walletName2">Wallet Name (Optional)</Label>
+                          <Input
+                            id="walletName2"
+                            placeholder="e.g., Primary Bitcoin Wallet"
+                            value={newWallet.walletName}
+                            onChange={(e) => setNewWallet({ ...newWallet, walletName: e.target.value })}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="walletAddress2">Wallet Address *</Label>
+                          <Input
+                            id="walletAddress2"
+                            placeholder="Enter your wallet address"
+                            value={newWallet.walletAddress}
+                            onChange={(e) => setNewWallet({ ...newWallet, walletAddress: e.target.value })}
+                            className="font-mono text-sm"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="currency2">Currency</Label>
+                          <Input
+                            id="currency2"
+                            value={newWallet.currency}
+                            onChange={(e) => setNewWallet({ ...newWallet, currency: e.target.value })}
+                            placeholder="BTC, ETH, USD, etc."
+                          />
+                        </div>
+                      </div>
+                      <div className="flex justify-end gap-3">
+                        <Button variant="outline" onClick={() => setIsAddWalletOpen(false)}>
+                          Cancel
+                        </Button>
+                        <Button onClick={handleAddWallet} disabled={addWalletMutation.isPending}>
+                          {addWalletMutation.isPending ? "Adding..." : "Add Wallet"}
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </CardContent>
               </Card>
             )}
