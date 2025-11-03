@@ -11,7 +11,7 @@ import '@/utils/errorMonitoring'; // Initialize 100 frontend AI error fixers
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
-import { Activity, Brain, Network, TrendingUp, Zap, Radio, Cpu, Sparkles, Cable, Phone, Settings, MapPin, Bitcoin, Shield } from "lucide-react";
+import { Activity, Brain, Network, TrendingUp, Zap, Radio, Cpu, Sparkles, Cable, Phone, Settings, MapPin, Bitcoin, Shield, DollarSign, Users } from "lucide-react";
 import { MicrosoftGlyph } from "@/components/MicrosoftGlyph";
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
@@ -398,6 +398,36 @@ export default function Home() {
               <CardTitle>Verizon Network Manager</CardTitle>
               <CardDescription>
                 Remove network restrictions on iPhone XR (iPhone XR Exclusive)
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card 
+            className="glass-card border-green-500/30 hover:border-green-500/60 transition-all group cursor-pointer"
+            onClick={() => setLocation('/earnings')}
+          >
+            <CardHeader>
+              <div className="mb-4">
+                <MicrosoftGlyph icon={DollarSign} size="md" variant="success" />
+              </div>
+              <CardTitle>Earnings Analytics</CardTitle>
+              <CardDescription>
+                Track revenue from all sources (iPhone XR Exclusive)
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card 
+            className="glass-card border-purple-500/30 hover:border-purple-500/60 transition-all group cursor-pointer"
+            onClick={() => setLocation('/referrals')}
+          >
+            <CardHeader>
+              <div className="mb-4">
+                <MicrosoftGlyph icon={Users} size="md" variant="accent" />
+              </div>
+              <CardTitle>Referral Network</CardTitle>
+              <CardDescription>
+                Earn from network growth (iPhone XR Exclusive)
               </CardDescription>
             </CardHeader>
           </Card>

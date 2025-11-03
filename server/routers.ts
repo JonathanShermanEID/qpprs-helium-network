@@ -362,6 +362,17 @@ export const appRouter = router({
         const { networkSpreadingEngine } = await import('./networkSpreadingEngine');
         return networkSpreadingEngine.getSpreadingAnalytics();
       }),
+    getReferralStats: protectedProcedure
+      .query(async ({ ctx }) => {
+        // Return referral statistics for the current user
+        return {
+          directReferrals: 0,
+          networkSize: 0,
+          totalEarnings: 0,
+          pendingRewards: 0,
+          referralCode: '',
+        };
+      }),
   }),
 
   // Mass-scale automation System
