@@ -1,0 +1,14 @@
+{
+  "query": "SELECT COUNT(*) as total_devices, SUM(CAST(REPLACE(rewards, ' HNT', '') AS DECIMAL(10,2))) as total_hnt_rewards FROM hotspots;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 28CHWtM5UJNbLNs.96465bd381e1 --database hYXGHeoHE88N65i9nWMTPo --execute SELECT COUNT(*) as total_devices, SUM(CAST(REPLACE(rewards, ' HNT', '') AS DECIMAL(10,2))) as total_hnt_rewards FROM hotspots;",
+  "rows": [
+    {
+      "total_devices": "8024",
+      "total_hnt_rewards": "17054376.19"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_devices\ttotal_hnt_rewards\n8024\t17054376.19\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}
