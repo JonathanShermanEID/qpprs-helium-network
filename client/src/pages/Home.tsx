@@ -11,7 +11,7 @@ import '@/utils/errorMonitoring'; // Initialize 100 frontend AI error fixers
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
-import { Activity, Brain, Network, TrendingUp, Zap, Radio, Cpu, Sparkles, Cable, Phone, Settings, MapPin, Bitcoin, Shield, DollarSign, Users } from "lucide-react";
+import { Activity, Brain, Network, TrendingUp, Zap, Radio, Cpu, Sparkles, Cable, Phone, Settings, MapPin, Bitcoin, Shield, DollarSign, Users, Eye } from "lucide-react";
 import { MicrosoftGlyph } from "@/components/MicrosoftGlyph";
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
@@ -428,6 +428,21 @@ export default function Home() {
               <CardTitle>Referral Network</CardTitle>
               <CardDescription>
                 Earn from network growth (iPhone XR Exclusive)
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card 
+            className="glass-card border-red-500/30 hover:border-red-500/60 transition-all group cursor-pointer"
+            onClick={() => setLocation('/security-crawlers')}
+          >
+            <CardHeader>
+              <div className="mb-4">
+                <MicrosoftGlyph icon={Eye} size="md" variant="destructive" />
+              </div>
+              <CardTitle>Security Crawlers</CardTitle>
+              <CardDescription>
+                20 AI LLMs protecting 24/7 (iPhone XR Exclusive)
               </CardDescription>
             </CardHeader>
           </Card>

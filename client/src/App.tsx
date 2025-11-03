@@ -18,6 +18,7 @@ import CryptoPayments from "./pages/CryptoPayments";
 import VerizonNetworkManager from "./pages/VerizonNetworkManager";
 import EarningsAnalytics from "./pages/EarningsAnalytics";
 import ReferralDashboard from "./pages/ReferralDashboard";
+import SecurityCrawlers from "./pages/SecurityCrawlers";
 import { NetworkStatusIndicator } from "./components/NetworkStatusIndicator";
 import { IOSConnectionBanner } from "./components/IOSConnectionBanner";
 import { CloakingWrapper } from "./components/CloakingWrapper";
@@ -40,6 +41,7 @@ function Router() {
       <Route path={"/verizon-network"} component={VerizonNetworkManager} />
       <Route path={"/earnings"} component={EarningsAnalytics} />
       <Route path={"/referrals"} component={ReferralDashboard} />
+      <Route path={"/security-crawlers"} component={SecurityCrawlers} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
