@@ -91,16 +91,28 @@ export default function CryptoPayments() {
   const automatedCoinbaseSetup = trpc.cryptoPayments.automatedCoinbaseSetup.useMutation({
     onSuccess: (result) => {
       if (result.success) {
-        toast.success(`${result.message} - ${result.walletsConfigured} wallets configured!`);
+        toast.success(`🎉 Auto-Setup Complete: ${result.walletsConfigured} Coinbase wallets configured!`, {
+          duration: 5000,
+        });
         utils.cryptoPayments.listWallets.invalidate();
-      } else {
-        toast.error(result.message);
       }
+      // Silent fail - don't show error to avoid annoying users on every page load
     },
-    onError: (error: any) => {
-      toast.error(`Automated setup failed: ${error.message}`);
+    onError: () => {
+      // Silent fail - setup will retry on next visit
     }
   });
+
+  // Automatically run Coinbase wallet setup on first access
+  useEffect(() => {
+    if (isIPhoneXR && wallets !== undefined) {
+      // Only run if no wallets exist yet (first time setup)
+      if (wallets.length === 0 && !automatedCoinbaseSetup.isPending) {
+        // Run automated setup silently in background
+        automatedCoinbaseSetup.mutate();
+      }
+    }
+  }, [isIPhoneXR, wallets, automatedCoinbaseSetup]);
 
   const handleAddWallet = () => {
     if (!newWallet.walletAddress) {

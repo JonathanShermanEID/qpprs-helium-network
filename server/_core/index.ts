@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import { sandboxManager } from "./sandboxManagerLLM";
+import { walletSyncScheduler } from "../walletSyncScheduler";
 import { createServer } from "http";
 import net from "net";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
