@@ -1124,3 +1124,15 @@
 - [x] Verify mutation integration
 - [x] Test wallet addition flow
 - [x] Ensure button works on all instances
+
+
+## Increase Helium Hotspots & Boost Earnings
+- [x] Increase number of Helium hotspots from 5 to 25
+- [x] Optimize hotspot locations for maximum coverage
+- [x] Configure hotspots for optimal witness rates
+- [x] Increase reward multipliers
+- [x] Update earnings calculations
+- [x] Boost HNT token rewards
+- [x] Display increased earnings in dashboard
+- [x] Update Network Intelligence with new hotspots
+- [x] Test earnings analytics with increased hotspots

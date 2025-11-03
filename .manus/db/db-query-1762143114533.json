@@ -1,0 +1,230 @@
+{
+  "query": "SELECT * FROM hotspots;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 28CHWtM5UJNbLNs.96465bd381e1 --database hYXGHeoHE88N65i9nWMTPo --execute SELECT * FROM hotspots;",
+  "rows": [
+    {
+      "id": "60021",
+      "hotspotId": "112qB3YaH5bZkCnKA5uRH7tBtGNv2Y5B4smv1jsmvGQ2228Xc8Qk",
+      "name": "tall-crimson-urchin",
+      "status": "online",
+      "rewards": "2.45 HNT",
+      "location": "San Francisco, CA",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60022",
+      "hotspotId": "112MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBdqBXHBZJxXhfR1",
+      "name": "steep-azure-shark",
+      "status": "online",
+      "rewards": "2.31 HNT",
+      "location": "New York, NY",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60023",
+      "hotspotId": "112ewJNEUctVccvXiXQGVCKRKKMdH7Wqvhv3Jc3fkbPRdqvDpBFr",
+      "name": "bent-pearl-mantis",
+      "status": "online",
+      "rewards": "2.18 HNT",
+      "location": "Los Angeles, CA",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60024",
+      "hotspotId": "112p7dQmkrChmMf8xKWxV7p4WCCddJjvJpHZMZRkKqvXhfR1BdqB",
+      "name": "smooth-violet-wombat",
+      "status": "online",
+      "rewards": "2.27 HNT",
+      "location": "Chicago, IL",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60025",
+      "hotspotId": "112xZJvJmNkHqvXBdqBXHBZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvj",
+      "name": "rich-amber-cobra",
+      "status": "online",
+      "rewards": "2.14 HNT",
+      "location": "Miami, FL",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60026",
+      "hotspotId": "112ZJvJmNkHqvXBdqBXHBZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZ",
+      "name": "fierce-emerald-wolf",
+      "status": "online",
+      "rewards": "2.35 HNT",
+      "location": "Seattle, WA",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60027",
+      "hotspotId": "112vJmNkHqvXBdqBXHBZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJ",
+      "name": "bright-ruby-falcon",
+      "status": "online",
+      "rewards": "2.21 HNT",
+      "location": "Austin, TX",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60028",
+      "hotspotId": "112NkHqvXBdqBXHBZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJm",
+      "name": "swift-jade-tiger",
+      "status": "online",
+      "rewards": "2.24 HNT",
+      "location": "Denver, CO",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60029",
+      "hotspotId": "112HqvXBdqBXHBZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNk",
+      "name": "calm-sapphire-eagle",
+      "status": "online",
+      "rewards": "2.38 HNT",
+      "location": "Boston, MA",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60030",
+      "hotspotId": "112vXBdqBXHBZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHq",
+      "name": "wild-copper-panther",
+      "status": "online",
+      "rewards": "2.11 HNT",
+      "location": "Portland, OR",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60031",
+      "hotspotId": "112BdqBXHBZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvX",
+      "name": "noble-gold-lion",
+      "status": "online",
+      "rewards": "2.08 HNT",
+      "location": "Phoenix, AZ",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60032",
+      "hotspotId": "112qBXHBZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBd",
+      "name": "quick-silver-hawk",
+      "status": "online",
+      "rewards": "2.17 HNT",
+      "location": "Dallas, TX",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60033",
+      "hotspotId": "112XHBZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBdqB",
+      "name": "brave-bronze-bear",
+      "status": "online",
+      "rewards": "2.15 HNT",
+      "location": "Houston, TX",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60034",
+      "hotspotId": "112BZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBdqBXH",
+      "name": "proud-platinum-raven",
+      "status": "online",
+      "rewards": "2.22 HNT",
+      "location": "Atlanta, GA",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60035",
+      "hotspotId": "112JxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBdqBXHBZ",
+      "name": "sharp-titanium-cheetah",
+      "status": "online",
+      "rewards": "2.05 HNT",
+      "location": "Nashville, TN",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60036",
+      "hotspotId": "112XhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBdqBXHBZJx",
+      "name": "gentle-quartz-dolphin",
+      "status": "online",
+      "rewards": "2.02 HNT",
+      "location": "Minneapolis, MN",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60037",
+      "hotspotId": "112fR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBdqBXHBZJxXh",
+      "name": "strong-obsidian-rhino",
+      "status": "online",
+      "rewards": "1.98 HNT",
+      "location": "Detroit, MI",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60038",
+      "hotspotId": "112R1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBdqBXHBZJxXhf",
+      "name": "wise-marble-owl",
+      "status": "online",
+      "rewards": "2.28 HNT",
+      "location": "Philadelphia, PA",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60039",
+      "hotspotId": "1121MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBdqBXHBZJxXhfR",
+      "name": "clever-diamond-fox",
+      "status": "online",
+      "rewards": "2.25 HNT",
+      "location": "San Diego, CA",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    },
+    {
+      "id": "60040",
+      "hotspotId": "112tP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBdqBXHBZJxXhfR1M",
+      "name": "silent-onyx-leopard",
+      "status": "offline",
+      "rewards": "0.00 HNT",
+      "location": "Las Vegas, NV",
+      "lastSeen": "NULL",
+      "createdAt": "2025-11-01 04:37:32",
+      "updatedAt": "2025-11-01 04:37:32"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\thotspotId\tname\tstatus\trewards\tlocation\tlastSeen\tcreatedAt\tupdatedAt\n60021\t112qB3YaH5bZkCnKA5uRH7tBtGNv2Y5B4smv1jsmvGQ2228Xc8Qk\ttall-crimson-urchin\tonline\t2.45 HNT\tSan Francisco, CA\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60022\t112MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBdqBXHBZJxXhfR1\tsteep-azure-shark\tonline\t2.31 HNT\tNew York, NY\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60023\t112ewJNEUctVccvXiXQGVCKRKKMdH7Wqvhv3Jc3fkbPRdqvDpBFr\tbent-pearl-mantis\tonline\t2.18 HNT\tLos Angeles, CA\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60024\t112p7dQmkrChmMf8xKWxV7p4WCCddJjvJpHZMZRkKqvXhfR1BdqB\tsmooth-violet-wombat\tonline\t2.27 HNT\tChicago, IL\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60025\t112xZJvJmNkHqvXBdqBXHBZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvj\trich-amber-cobra\tonline\t2.14 HNT\tMiami, FL\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60026\t112ZJvJmNkHqvXBdqBXHBZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZ\tfierce-emerald-wolf\tonline\t2.35 HNT\tSeattle, WA\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60027\t112vJmNkHqvXBdqBXHBZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJ\tbright-ruby-falcon\tonline\t2.21 HNT\tAustin, TX\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60028\t112NkHqvXBdqBXHBZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJm\tswift-jade-tiger\tonline\t2.24 HNT\tDenver, CO\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60029\t112HqvXBdqBXHBZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNk\tcalm-sapphire-eagle\tonline\t2.38 HNT\tBoston, MA\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60030\t112vXBdqBXHBZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHq\twild-copper-panther\tonline\t2.11 HNT\tPortland, OR\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60031\t112BdqBXHBZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvX\tnoble-gold-lion\tonline\t2.08 HNT\tPhoenix, AZ\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60032\t112qBXHBZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBd\tquick-silver-hawk\tonline\t2.17 HNT\tDallas, TX\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60033\t112XHBZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBdqB\tbrave-bronze-bear\tonline\t2.15 HNT\tHouston, TX\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60034\t112BZJxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBdqBXH\tproud-platinum-raven\tonline\t2.22 HNT\tAtlanta, GA\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60035\t112JxXhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBdqBXHBZ\tsharp-titanium-cheetah\tonline\t2.05 HNT\tNashville, TN\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60036\t112XhfR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBdqBXHBZJx\tgentle-quartz-dolphin\tonline\t2.02 HNT\tMinneapolis, MN\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60037\t112fR1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBdqBXHBZJxXh\tstrong-obsidian-rhino\tonline\t1.98 HNT\tDetroit, MI\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60038\t112R1MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBdqBXHBZJxXhf\twise-marble-owl\tonline\t2.28 HNT\tPhiladelphia, PA\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60039\t1121MtP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBdqBXHBZJxXhfR\tclever-diamond-fox\tonline\t2.25 HNT\tSan Diego, CA\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n60040\t112tP4K9Hf5iLpjbvxHYqMvjZMJvJmNkHqvXBdqBXHBZJxXhfR1M\tsilent-onyx-leopard\toffline\t0.00 HNT\tLas Vegas, NV\tNULL\t2025-11-01 04:37:32\t2025-11-01 04:37:32\n",
+  "stderr": "",
+  "execution_time_ms": 82
+}
