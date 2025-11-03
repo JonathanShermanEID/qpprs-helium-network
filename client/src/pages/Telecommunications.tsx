@@ -191,9 +191,12 @@ export default function Telecommunications() {
                   className="p-4 rounded-lg bg-blue-950/50 border border-blue-400/20 hover:border-blue-400/40 transition-all"
                 >
                   <div className="flex items-start justify-between mb-3">
-                    <div>
+                    <div className="flex-1">
                       <h3 className="text-white font-semibold">{account.phoneNumber}</h3>
                       <p className="text-sm text-blue-300">{account.plan}</p>
+                      {account.monthlyCost && (
+                        <p className="text-lg font-bold text-green-400 mt-1">{account.monthlyCost}/mo</p>
+                      )}
                     </div>
                     <Badge
                       variant={account.status === "active" ? "default" : "secondary"}
@@ -206,6 +209,11 @@ export default function Telecommunications() {
                       {account.status}
                     </Badge>
                   </div>
+                  {account.planDetails && (
+                    <div className="mb-3 p-2 bg-blue-900/30 rounded text-xs text-blue-200">
+                      {account.planDetails}
+                    </div>
+                  )}
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-blue-400">Minutes Used</span>
@@ -245,9 +253,12 @@ export default function Telecommunications() {
                   className="p-4 rounded-lg bg-blue-950/50 border border-blue-400/20 hover:border-blue-400/40 transition-all"
                 >
                   <div className="flex items-start justify-between mb-3">
-                    <div>
+                    <div className="flex-1">
                       <h3 className="text-white font-semibold">{account.phoneNumber}</h3>
                       <p className="text-sm text-blue-300">Text Messaging</p>
+                      {account.monthlyCost && (
+                        <p className="text-lg font-bold text-green-400 mt-1">{account.monthlyCost}/mo</p>
+                      )}
                     </div>
                     <Badge
                       variant={account.status === "active" ? "default" : "secondary"}

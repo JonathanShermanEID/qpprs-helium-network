@@ -307,10 +307,10 @@ export default function CryptoPayments() {
                     <Select
                       value={newWallet.walletType}
                       onValueChange={(value: any) => {
-                        setNewWallet({ ...newWallet, walletType: value });
-                        if (value === "bitcoin") setNewWallet({ ...newWallet, walletType: value, currency: "BTC" });
-                        if (value === "ethereum") setNewWallet({ ...newWallet, walletType: value, currency: "ETH" });
-                        if (value === "coinbase_commerce") setNewWallet({ ...newWallet, walletType: value, currency: "USD" });
+                        let currency = "BTC";
+                        if (value === "ethereum") currency = "ETH";
+                        if (value === "coinbase_commerce") currency = "USD";
+                        setNewWallet({ ...newWallet, walletType: value, currency });
                       }}
                     >
                       <SelectTrigger id="walletType">

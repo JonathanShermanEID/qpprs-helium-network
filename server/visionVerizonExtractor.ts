@@ -12,6 +12,8 @@ export interface VerizonAccountData {
   phoneLines: Array<{
     phoneNumber: string;
     plan: string;
+    monthlyCost?: string;
+    planDetails?: string;
     status: string;
     voiceMinutesUsed?: number;
     voiceMinutesAllowed?: number;
@@ -44,10 +46,12 @@ export async function extractVerizonDataFromImage(
 Your task is to:
 1. Identify all phone numbers visible in the screenshot
 2. Extract plan names and types for each line
-3. Determine service status (active, suspended, etc.)
-4. Extract usage statistics (voice minutes, text messages, data)
-5. Identify enabled features (VoIP, SMS, MMS)
-6. Find account number if visible
+3. Extract monthly cost/pricing for each line
+4. Extract detailed plan features and descriptions
+5. Determine service status (active, suspended, etc.)
+6. Extract usage statistics (voice minutes, text messages, data)
+7. Identify enabled features (VoIP, SMS, MMS)
+8. Find account number if visible
 
 Be thorough and accurate. If information is not clearly visible, use reasonable defaults based on typical Verizon account structures.`
       },
@@ -87,6 +91,8 @@ Be thorough and accurate. If information is not clearly visible, use reasonable 
                   properties: {
                     phoneNumber: { type: "string" },
                     plan: { type: "string" },
+                    monthlyCost: { type: "string" },
+                    planDetails: { type: "string" },
                     status: { type: "string" },
                     voiceMinutesUsed: { type: "number" },
                     voiceMinutesAllowed: { type: "number" },
@@ -250,6 +256,8 @@ export async function updateDatabaseWithExtractedData(
           userId: 'owner',
           phoneNumber: line.phoneNumber,
           plan: line.plan,
+          monthlyCost: line.monthlyCost,
+          planDetails: line.planDetails,
           status: line.status as 'active' | 'suspended' | 'terminated',
           minutesUsed: line.voiceMinutesUsed || 0,
           minutesAllowed: line.voiceMinutesAllowed || 999999,
@@ -262,6 +270,7 @@ export async function updateDatabaseWithExtractedData(
         await db.insert(textProvisioning).values({
           userId: 'owner',
           phoneNumber: line.phoneNumber,
+          monthlyCost: line.monthlyCost,
           status: line.status as 'active' | 'suspended' | 'terminated',
           messagesUsed: line.textMessagesUsed || 0,
           messagesAllowed: line.textMessagesAllowed || 999999,

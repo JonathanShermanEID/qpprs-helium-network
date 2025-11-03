@@ -1106,3 +1106,21 @@
 - [x] Automatically update telecommunications database
 - [x] Create screenshot upload UI in telecommunications page
 - [x] Test with real My Verizon screenshots
+
+
+## Enhanced Telecommunications Display - Plan Details & Costs
+- [x] Update database schema to include monthly cost field
+- [x] Enhance vision extractor to capture plan pricing
+- [x] Update Telecommunications UI to show plan details cards
+- [x] Display monthly cost for each phone line
+- [x] Show plan features and limits
+- [x] Add total monthly cost summary
+- [x] Test with real pricing data
+
+
+## Fix Add Wallet Button - Crypto Payments
+- [x] Investigate Add Wallet button not working
+- [x] Check dialog state and click handlers
+- [x] Verify mutation integration
+- [x] Test wallet addition flow
+- [x] Ensure button works on all instances
